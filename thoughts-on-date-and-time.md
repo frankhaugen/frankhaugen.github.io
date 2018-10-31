@@ -1,13 +1,16 @@
 # Thoughts on time and date in applications
+I'm making an app that has a chat functionality, and so time is an important factor. I couldn't find serious discussions about this excepte, "use X format"; So i made this to gather my thoughts about it.
 
 ### TL;DR
-I'm working on an app requreing a form of timestamp in a chat, and what type of time to use is a big question, so I disquss it here.
+Time and dates are hard!
 
 ### Why is time important?
 You might think that for a simple chat app, there's no need to use time, but you should always include time. It's a great way to sort, though this might be acheived by some auto-incremented number.
 
 ### What DateTime format to use?
-Some examples of the same DateTime (seconds an milliseconds omitted, mostly):
+There are plenty of libraries to convert time and dates to whatever format you want, so why not just use what you use in your daily life? Let me show you:
+
+Some examples of the same DateTime (seconds an milliseconds omitted, mostly)
 
 DateTime code | Description | My opinion 
 --- | --- | ---
@@ -27,7 +30,7 @@ DateTime code | Description | My opinion
 
 > You might be confused by the "snowflaking" of the US in all of this, but it has it's reasons, mostly the unwillingness to risk confusion among it's citizens. However the US Military does use the the UTC time, 
 
-You might say "hey, how about my country/culture's calendar? This is awefully eurocentric", and yes it is completely correct and a good point to make. Here's some examples of calendars:
+You might say "hey, how about my country/culture's calendar? This is awefully eurocentric", and yes it is completely correct and a good point to make. Here's some examples of calendars from around the world that is in use today:
 
 Date | Decription
 --- | --- 
@@ -37,3 +40,16 @@ Date | Decription
 1934-Asvina-12 | Indian Civil
 Dragon-Dog-18 | Chinese variant 1
 4710-8-18 | Chinese variant 2
+
+
+
+
+
+
+### But what about Timezones?
+Short answer is: Ignore it!
+
+Explaination why:
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=-5wpm-gesOY
+" target="_blank"><img src="http://img.youtube.com/vi/-5wpm-gesOY/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
