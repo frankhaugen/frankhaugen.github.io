@@ -44,7 +44,7 @@ Dragon-Dog-18 | Chinese variant 1 (not actually used)
 
 > there are scores upon scores of others, some only used by tribes in micronesia or in the himalayas, (that there's probably a conversion for anyway, because developers love a challange, or some social anthropologist needs it in their research
 
-I will not denegrade the non-gregorian calanders, and they are useful for those who share them, but I don't think I'll be using Dragon-dog-18, (though if I were, I would have to have some logic to assume it's the closest Dragon in the last 12 years); yes I 
+I will not denegrade the non-gregorian calanders, and they are useful for those who share them, but I don't think I'll be using Dragon-dog-18, (though if I were, I would have to have some logic to assume it's the closest Dragon in the last 12 years)
 
 ### But what about Timezones?
 Short answer is: Ignore it, and use a universal time with conversion logic!
@@ -54,3 +54,7 @@ Great video about timezones every dev should watch:
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=-5wpm-gesOY
 " target="_blank"><img src="http://img.youtube.com/vi/-5wpm-gesOY/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+
+## Conlusion: Use millisecond UNIX time
+The computer counts in this time unit, (.net actually has a unit caller "ticks" that is MUCH smaller)
+
