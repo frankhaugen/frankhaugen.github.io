@@ -38,18 +38,20 @@ Date | Decription
 1433-Dhu I-Qa'da-18 | Islamic
 1391-Mehr-13 | Persian
 1934-Asvina-12 | Indian Civil
-Dragon-Dog-18 | Chinese variant 1
-4710-8-18 | Chinese variant 2
+Dragon-Dog-18 | Chinese variant 1 (not actually used)
+4710-8-18 | Chinese variant 2 (China actually use Gregorian)
 
+> there are scores upon scores of others, some only used by tribes in micronesia or in the himalayas, (that there's probably a conversion for anyway, because developers love a challange, or some social anthropologist needs it in their research
 
+I will not denegrade the non-gregorian calanders, and they are useful for those who share them, but I don't think I'll be using Dragon-dog-18, (though if I were, I would have to have some logic to assume it's the closest Dragon in the last 12 years); yes I 
 
 
 
 
 ### But what about Timezones?
-Short answer is: Ignore it!
+Short answer is: Ignore it, and use a universal time with conversion logic!
 
-Great video about timezones every dev, should watch multiple times:
+Great video about timezones every dev should watch:
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=-5wpm-gesOY
 " target="_blank"><img src="http://img.youtube.com/vi/-5wpm-gesOY/0.jpg" 
