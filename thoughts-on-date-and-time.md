@@ -49,7 +49,8 @@ Dragon-Dog-18 | Chinese variant 1
 ### But what about Timezones?
 Short answer is: Ignore it!
 
-Explaination why:
+Great video about timezones every dev, should watch multiple times:
+
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=-5wpm-gesOY
 " target="_blank"><img src="http://img.youtube.com/vi/-5wpm-gesOY/0.jpg" 
 alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
