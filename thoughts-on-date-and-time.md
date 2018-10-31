@@ -8,6 +8,7 @@ You might think that for a simple chat app, there's no need to use time, but you
 
 ### What DateTime format to use?
 Some examples of the same DateTime (seconds an milliseconds omitted, mostly):
+
 DateTime code | Description
 --- | --- 
 10-03-12 12:13AM | US/UK short AM/PM
