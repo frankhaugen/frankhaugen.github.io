@@ -14,19 +14,20 @@ Some examples of the same DateTime (seconds an milliseconds omitted, mostly)
 
 DateTime code | Description | My opinion 
 --- | --- | ---
+2012-10-03T12:13:00Z | UTC time friendly
 10-03-12 12:13PM | US/UK short AM/PM | Stupid, because counting 12 + 12 only makes sense when using 
 10-03-12 12:13 | US/UK short 24H | Internaly sencible, internationally stupid
 10-03-2012 12:13PM | US/UK long AM/PM | see above
 03-10-12 12:13 | Short international | What I grew up using, but it's confusing
 03-10-2012 12:13 | Long international | The most sencible day-to-day format
-2012-10-03 12:13 | Sortable long international | 
-2012-40-3 12:13 | year-week-weekday international
-2012-40-4 12:13 | year-week-weekday US
-201210031213 | sortable character safe
-100320121213 | non-sortable character safe US
-1349266380 | UNIX time seconds
-1349259180000 | UNIX time milliseconds
-2012-10-03T12:13:00Z | UTC time friendly
+2012-10-03 12:13 | Sortable long international | Very useful for sorting
+2012-40-3 12:13 | year-week-weekday international | Very useful for class schedules
+2012-40-4 12:13 | year-week-weekday US | Who thought it was a good idea to start the week on Sunday?
+201210031213 | sortable character safe | Great for document naming or a timestamp on a database-row
+100320121213 | non-sortable character safe US | NEVER use this
+1349266380 | UNIX time seconds | Somewhat useful
+1349259180000 | UNIX time milliseconds | THE best way to use date and time, (see bellow)
+
 
 > You might be confused by the "snowflaking" of the US in all of this, but it has it's reasons, mostly the unwillingness to risk confusion among it's citizens. However the US Military does use the the UTC time, 
 
@@ -44,9 +45,6 @@ Dragon-Dog-18 | Chinese variant 1 (not actually used)
 > there are scores upon scores of others, some only used by tribes in micronesia or in the himalayas, (that there's probably a conversion for anyway, because developers love a challange, or some social anthropologist needs it in their research
 
 I will not denegrade the non-gregorian calanders, and they are useful for those who share them, but I don't think I'll be using Dragon-dog-18, (though if I were, I would have to have some logic to assume it's the closest Dragon in the last 12 years); yes I 
-
-
-
 
 ### But what about Timezones?
 Short answer is: Ignore it, and use a universal time with conversion logic!
