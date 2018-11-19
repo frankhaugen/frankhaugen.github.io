@@ -2,12 +2,16 @@
 
 La meg åpne med å si at dette er min subjektive mening, som baserer seg på mine erfaringer; så slipper noen å bli saksøkt.
 
-Jeg har lyst til å si at Apple sin logo er ypperlig, fordi jeg ser for meg selskapet som et epla man har satt tennene sine i og finner ut at det er råttent inni.
+TL;DR: Apple gjør jobben med å være utvikler unødvendig vanskelig, dyrt og oppfører seg som en primadonna
 
-Jeg har laget ett enkelt spill i Unity og en cross-platform app. Appen skal brukes av en organisasjon, og den trenger å treffe alle sine medlemmer og potensielle medlemmer. Jeg har fyrer opp Visual Studio 2017, lager appen i Xamarin, tester og finpusser slik at den er klar for Play Store, starter en Alpha Release, og alt er flott. Så er det iOS sin tur, så jeg finner frem en av min samboers Mac-er, og så viser det seg at, nei Xcode er ikke tilgjengelig på den versjonen. Greit! Vi finner frem Vitualbox for å kjøre mac virtuelt, null problem. Neida, jeg må fjerne Hyper-V, som ikke er aktuelt, for å få det til å funke. Nå begynner jeg å koke og henter iMac-en jeg vant på jobb, som nå har brukt tre timer på å installere xcode og VS 2017, etter to timer med oppdateringer.
+Jeg har lyst til å si at Apple sin logo er ypperlig, fordi jeg ser for meg selskapet som et eple man har satt tennene sine i og finner ut at det er råttent inni. Her er min hostorie og erfaringer med Apple.
 
-Så over er ca. en arbeidsdag med tid som er bortkastet, så finner jeg ut av en siste horribel ting: Gitt Apple sin oppdaterings-historie er det 4-5 måneder til Xcode ikke lenger fungerer på iMac-en min. Så til våren må jeg punge ut tusner jeg ikke egentlig har, på det som bare skal være en "build box".
+Det hele begynte når jeg hadde laget en cross-platform app til en frivillig organisasjon, (gratis naturligvis). Jeg har laget appen i Xamarin Forms, og har enkelt kunnet utvikle og teste på Android, samt kjøre intern testing i Play Store. Nå er det iOS sin tur, så jeg finner frem en av min samboers Mac-er, men nei Xcode er ikke tilgjengelig på den versjonen. Greit! Jeg finner frem Vitualbox for å kjøre mac virtuelt, null problem. Neida, jeg må fjerne Hyper-V og skrive masse terminalkoder for å lure MacOS til å få det til å funke, men NEIDA, det funker ikke det heller. Nå begynner jeg å koke og henter iMac-en jeg vant på jobb, som bruker tre timer på å installere xcode og VS 2017, ETTER to timer med oppdateringer.
 
-La oss sammenligne med Microsoft: VB6, som er 20 år i år, har fortsatt runtime-ene sine i nyeste Windows. Microsoft's holdning til utviklere kan summeres opp i Steve Ballmer som på scenen forann tusner av utviklere skriker "developers, developers, developers, developers...". Idag er Microsoft DEN største bidragsyteren til Open Source -prosjekter på GitHub. Apple har Swift-ressurser og en håndfull andre repos, som ikke akkurat virker prioritert.
+Så når jeg har brukt halvannen arbeidsdag, finner jeg ut at pga. Apple sin oppdaterings-policy er det 4-5 måneder til Xcode ikke lenger fungerer på iMac-en min, så til våren må jeg punge ut tusner jeg ikke egentlig har, på en "build box".
 
-Så når noen sier at Apple og Mac er "developer friendly", så har jeg lyst til å spytte på dem. For Microsoft lener seg bakover for å være imøtekommende og beholde kompatibilitet, mens Apple, synes at utviklere skal skrive om hele apper, og programvare, eller stadig kjøpe nytt utstyr
+Så skal man inn å sette opp en Apple Dev konto, og her viser det seg at jeg må ha en iPhone for å etablere to-faktor-autentisering, men det har jeg ikke, så man trygler samboeren om å låne hennes gamle, og tilbringer en dag i bodene for å finne den. Er dette "helvete" over? NEI! Når jeg endelig har alt i orden og skal bli Apple Dev, så kommer det opp at jeg må punge ut 99USD for et abonnoment for å få lov til å distribuere.
+
+Hvis jeg ikke hadde utstyret, ville det kostet meg minimum 20 000,- for å starte med utvikling til iOS... Og det er bare for å få æren av å utvikle. Det er heller ingen garantier for at Apple liker appen man har utviklet, og kan avvise den på estetisk grunnlag.
+
+Så konklusjonen min er at Apple er et horribelt selskap, som behandler utviklere som søppel!
