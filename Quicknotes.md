@@ -10,3 +10,8 @@
 - Make a data transform framework
 - Make some tutorials on youtube
 - Write blogs
+
+
+
+Links
+- https://itnext.io/the-concept-of-workflow-engines-c14e8088283
