@@ -15,3 +15,5 @@
 
 Links
 - https://itnext.io/the-concept-of-workflow-engines-c14e8088283
+- [RDO.net] (https://rdo.devzest.com/articles/tutorial/get_started.html?tabs=vs2017%2Ccs)
+- [ScottPlot](https://swharden.com/scottplot/quickstart#console-quickstart)
