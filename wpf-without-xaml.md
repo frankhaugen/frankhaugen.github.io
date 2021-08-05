@@ -16,7 +16,7 @@ The easy answer is: I don't like XAML! Even using MVVM, it's just bad HTML/XML t
     </PropertyGroup>
 </Project>
 ```
-2. Add an App.cs that extends `Application`
+2. Add an `App.cs` that extends `Application`
 ```c#
 using System.Windows;
 
@@ -27,7 +27,7 @@ namespace Demo.WpfApplication
     }
 }
 ```
-3. Create a MainWindow.cs to be your main window
+3. Create a `MainWindow.cs` to be your main window
 ```c#
 using System.Windows;
 using System.Windows.Controls;
@@ -54,7 +54,7 @@ namespace Demo.WpfApplication
     }
 }
 ```
-5. Create a WindowHost.cs -file that injects the `IServiceProvider`
+5. Rename `Worker.cs` to `WindowHost.cs` then inject only the `IServiceProvider`
 ```c#
 using System;
 using System.Threading;
@@ -82,4 +82,34 @@ namespace Demo.WpfApplication
     }
 }
 
+```
+6. Then finally edit the the Program.cs to look like this
+```c#
+using System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+
+namespace Demo.WpfApplication
+{
+    public class Program
+    {
+        [STAThread]
+        public static void Main(string[] args)
+        {
+            var host = Host.CreateDefaultBuilder(args)
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddLogging();
+                    services.AddScoped<App>();
+                    services.AddScoped<MainWindow>();
+                    
+                    // This MUST be last
+                    services.AddHostedService<WindowHost>();
+                });
+
+            host.Build().Run();
+        }
+    }
+}
 ```
