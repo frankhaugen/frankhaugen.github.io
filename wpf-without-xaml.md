@@ -4,7 +4,7 @@
 The easy answer is: I don't like XAML! Even using MVVM, it's just bad HTML/XML that is slow to work with, if you want some nesting and dynamic component adding
 
 ## How to get started?
-1. Use the dotnet cli or Visual Studio project creator to create a "Worker project" and change the .csproj to look something like this:
+#### 1. Use the dotnet cli or Visual Studio project creator to create a "Worker project" and change the .csproj to look something like this:
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Worker">
     <PropertyGroup>
@@ -16,7 +16,7 @@ The easy answer is: I don't like XAML! Even using MVVM, it's just bad HTML/XML t
     </PropertyGroup>
 </Project>
 ```
-2. Add an `App.cs` that extends `Application`
+#### 2. Add an `App.cs` that extends `Application`
 ```c#
 using System.Windows;
 
@@ -27,7 +27,7 @@ namespace Demo.WpfApplication
     }
 }
 ```
-3. Create a `MainWindow.cs` to be your main window
+#### 3. Create a `MainWindow.cs` to be your main window
 ```c#
 using System.Windows;
 using System.Windows.Controls;
@@ -54,7 +54,7 @@ namespace Demo.WpfApplication
     }
 }
 ```
-5. Rename `Worker.cs` to `WindowHost.cs` then inject only the `IServiceProvider`
+#### 4. Rename `Worker.cs` to `WindowHost.cs` then inject only the `IServiceProvider`
 ```c#
 using System;
 using System.Threading;
@@ -83,7 +83,7 @@ namespace Demo.WpfApplication
 }
 
 ```
-6. Then finally edit the the Program.cs to look like this
+#### 5. Then finally edit the the Program.cs to look like this
 ```c#
 using System;
 using Microsoft.Extensions.DependencyInjection;
