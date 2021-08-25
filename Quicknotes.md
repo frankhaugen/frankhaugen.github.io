@@ -18,6 +18,33 @@ Links
 - [RDO.net] (https://rdo.devzest.com/articles/tutorial/get_started.html?tabs=vs2017%2Ccs)
 - [ScottPlot](https://swharden.com/scottplot/quickstart#console-quickstart)
 
+
+```
+
+        [Fact]
+        public async Task ZipFilesTest()
+        {
+            var files = new Dictionary<string, byte[]>();
+            var sizeCounter = 0;
+
+            for (var i = 0; i < 10; i++)
+            {
+                var text = new Faker().Lorem.Paragraphs();
+                var bytes = Encoding.UTF8.GetBytes(text);
+                files.Add($"{i}.txt", bytes);
+                sizeCounter += bytes.Length;
+            }
+
+            var result = CompressionTools.ZipFiles(files);
+
+            result.Length.Should().BeLessThan(sizeCounter);
+            _outputHelper.WriteLine($"Original size: {sizeCounter}\nCompressed size: {result.Length}\nCompression %: {(result.Length / sizeCounter) * 100}");
+        }
+
+```
+
+
+
 ```
         public static byte[] ZipFiles(Dictionary<string, byte[]> files)
         {
