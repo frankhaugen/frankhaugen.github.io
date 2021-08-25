@@ -18,7 +18,22 @@ Links
 - [RDO.net] (https://rdo.devzest.com/articles/tutorial/get_started.html?tabs=vs2017%2Ccs)
 - [ScottPlot](https://swharden.com/scottplot/quickstart#console-quickstart)
 
-
+```
+        public static byte[] ZipFiles(Dictionary<string, byte[]> files)
+        {
+            using MemoryStream stream = new MemoryStream();
+            using (ZipArchive archive = new ZipArchive(stream, ZipArchiveMode.Update))
+            {
+                foreach (var (key, value) in files)
+                {
+                    ZipArchiveEntry orderEntry = archive.CreateEntry(key);
+                    using BinaryWriter writer = new BinaryWriter(orderEntry.Open());
+                    writer.Write(value);
+                }
+            }
+            return stream.ToArray();
+        }
+```
 
 #### Windows Terminal Settings
 ```
