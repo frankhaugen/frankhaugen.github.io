@@ -5,11 +5,12 @@
 
 var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures).OrderBy(x => x.Name);
 var countries = new List<Country>();
-
+var counter = 0;
 foreach (var culture in cultures)
 {
 	var info = new Dictionary<string, string>();
 	
+	info.Add(nameof(Country.CultureName), culture.Name);
 	info.Add(nameof(Country.LanguageCode), culture.TwoLetterISOLanguageName.ToUpperInvariant());
 	info.Add(nameof(Country.LanguageName), culture.EnglishName);
 	info.Add(nameof(Country.LocalLanguageName), culture.NativeName);
@@ -34,6 +35,8 @@ foreach (var culture in cultures)
 	}
 	
 	countries.Add(new Country(
+		counter,
+		info[nameof(Country.CultureName)],
 		info[nameof(Country.Name)],
 		info[nameof(Country.LocalName)],
 		info[nameof(Country.CountryCode)],
@@ -43,8 +46,51 @@ foreach (var culture in cultures)
 		info[nameof(Country.Currency)],
 		info[nameof(Country.CurrencyCode)]
 	));
+
+	counter++;
 }
 
+var countryCodeEnumValues = new List<string>();
+
+foreach (var country in countries.DistinctBy(x => x.Name))
+{
+	try
+	{
+		var countryName = country.Name.Replace(",", "").Replace("’", "").Replace(".", "").Replace("&", "And").Replace("-", "").Replace(" ", "").Replace("(", "").Replace(")", "");
+
+		if (string.IsNullOrWhiteSpace(countryName)) countryName = "InvariantCountry";
+
+		var value = $"{countryName} = {country.CultureId},";
+		countryNameEnumValues.Add(value);
+	}
+	catch (Exception ex)
+	{
+	}
+}
+
+string.Join("\n", countryNameEnumValues).Dump();
+
+var countryNameEnumValues = new List<string>();
+
+foreach (var country in countries.DistinctBy(x => x.Name))
+{
+	try
+	{
+		var countryName = country.Name.Replace(",", "").Replace("’", "").Replace(".", "").Replace("&", "And").Replace("-", "").Replace(" ", "").Replace("(", "").Replace(")", "");
+
+		if (string.IsNullOrWhiteSpace(countryName)) countryName = "InvariantCountry";
+
+		var value = $"{countryName} = {country.CultureId},";
+		countryNameEnumValues.Add(value);
+	}
+	catch (Exception ex)
+	{
+	}
+}
+
+string.Join("\n", countryNameEnumValues).Dump();
+
+
 countries.Dump();
-	
-record Country(string Name, string LocalName, string CountryCode, string LanguageName, string LocalLanguageName, string LanguageCode, string Currency, string CurrencyCode);
+
+record Country(int CultureId, string CultureName, string Name, string LocalName, string CountryCode, string LanguageName, string LocalLanguageName, string LanguageCode, string Currency, string CurrencyCode);

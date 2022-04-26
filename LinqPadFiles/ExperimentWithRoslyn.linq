@@ -9,31 +9,32 @@
   <Namespace>NJsonSchema.CodeGeneration.CSharp</Namespace>
 </Query>
 
-var document = await OpenApiDocument.FromUrlAsync("https://esi.evetech.net/latest/swagger.json");
-var @namespace = "EveOnlineApi";
+//var document = await OpenApiDocument.FromUrlAsync("https://esi.evetech.net/latest/swagger.json");
+var document = await OpenApiDocument.FromUrlAsync("https://api.semine.no/swagger/Semine.IntegrationApi.ApiSpecificationv1.0/swagger.json");
+var @namespace = "SemineIntegrationApi";
 var settings = new CSharpClientGeneratorSettings()
 {
-	ClassName = "Test",
+	ClassName = "SemineIntegrationBase",
 	WrapResponses = false,
 	GenerateDtoTypes = true,
 	GenerateExceptionClasses = false,
 	WrapDtoExceptions = false,
 	GenerateClientClasses = false,
-	GenerateOptionalParameters = true,
+	GenerateOptionalParameters = false,
 	CSharpGeneratorSettings =
 			{
 				Namespace = @namespace,
-				ClassStyle = CSharpClassStyle.Record,
-				ArrayType = "IList",
+				ClassStyle = CSharpClassStyle.Poco,
+				ArrayType = "List",
 				JsonLibrary = CSharpJsonLibrary.SystemTextJson,
-				GenerateNativeRecords = true,
+				GenerateNativeRecords = false,
 				GenerateDefaultValues = false,
 				GenerateNullableReferenceTypes = true,
-				GenerateDataAnnotations = false
+				GenerateDataAnnotations = false,
 			}
 };
 
-var outputDirectory = new DirectoryInfo(Path.Combine(@"C:\repos\frankhaugen\Frank.Libraries\src\Frank.Libraries.Gaming\Engine", @namespace));
+var outputDirectory = new DirectoryInfo(Path.Combine(@"C:\repos\SemineInvoiceGenerator\SemineInvoiceGenerator\Models", @namespace));
 if (!outputDirectory.Exists)
 {
 	outputDirectory.Create();
@@ -49,7 +50,7 @@ var namespaceSyntax = root.Members.OfType<NamespaceDeclarationSyntax>().First();
 var classes = namespaceSyntax.Members.OfType<ClassDeclarationSyntax>();
 var records = namespaceSyntax.Members.OfType<RecordDeclarationSyntax>();
 var enums = namespaceSyntax.Members.OfType<EnumDeclarationSyntax>();
-
+	
 //var classesDictionary = classes.ToDictionary(x => x.Identifier.ToString(), x => x);
 //var recordsDictionary = records.ToDictionary(x => x.Identifier.ToString(), x => x);
 //var enumsDictionary = enums.ToDictionary(x => x.Identifier.ToString(), x => x);

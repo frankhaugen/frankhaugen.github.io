@@ -17,8 +17,7 @@ var indent = new StringBuilder()
 stringBuilder.AppendLine("using System.ComponentModel;");
 stringBuilder.AppendLine("using System.Globalization;");
 stringBuilder.AppendLine("");
-stringBuilder.AppendLine("namespace GeneratedEnums");
-stringBuilder.AppendLine("{");
+stringBuilder.AppendLine("namespace GeneratedEnums;");
 
 // To make it runnable in LinqPad
 stringBuilder.AppendLine(indent + "// Only for LinqPad debugging purposes");
@@ -35,14 +34,10 @@ for (int i = 0; i < cultures.Count(); i++)
 {
 	var culture = cultures[i];
 
-	stringBuilder.AppendLine($"{indent}{indent}///<summary>{culture.EnglishName}</summary>");
+	stringBuilder.AppendLine($"{indent}{indent}/// <summary>{culture.EnglishName}</summary>");
 	stringBuilder.AppendLine($"{indent}{indent}[Description(\"{culture.NativeName}\")]");
 	stringBuilder.AppendLine($"{indent}{indent}{culture.TwoLetterISOLanguageName.ToUpperInvariant()} = {i},\n");
 }
 stringBuilder.AppendLine(indent + "}\n");
 
-stringBuilder.AppendLine("}");
-
-// output
-File.WriteAllText(@"C:\repos\frankhaugen\frankhaugen.github.io\YouTube\Episodes\002 - Enum Generation\Culture.cs", stringBuilder.ToString());
 stringBuilder.Dump();
