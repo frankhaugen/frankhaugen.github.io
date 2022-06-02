@@ -9,12 +9,11 @@
   <Namespace>NJsonSchema.CodeGeneration.CSharp</Namespace>
 </Query>
 
-//var document = await OpenApiDocument.FromUrlAsync("https://esi.evetech.net/latest/swagger.json");
-var document = await OpenApiDocument.FromUrlAsync("https://api.semine.no/swagger/Semine.IntegrationApi.ApiSpecificationv1.0/swagger.json");
-var @namespace = "SemineIntegrationApi";
+var document = await OpenApiDocument.FromUrlAsync("https://esi.evetech.net/latest/swagger.json");
+var @namespace = "ReplaceMe";
 var settings = new CSharpClientGeneratorSettings()
 {
-	ClassName = "SemineIntegrationBase",
+	ClassName = "ApiBase",
 	WrapResponses = false,
 	GenerateDtoTypes = true,
 	GenerateExceptionClasses = false,
@@ -34,7 +33,7 @@ var settings = new CSharpClientGeneratorSettings()
 			}
 };
 
-var outputDirectory = new DirectoryInfo(Path.Combine(@"C:\repos\SemineInvoiceGenerator\SemineInvoiceGenerator\Models", @namespace));
+var outputDirectory = new DirectoryInfo(Path.Combine(@"C:\temp\Models", @namespace));
 if (!outputDirectory.Exists)
 {
 	outputDirectory.Create();
