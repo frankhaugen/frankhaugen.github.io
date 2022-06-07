@@ -1,6 +1,8 @@
 <Query Kind="Statements">
   <NuGetReference>Microsoft.CodeAnalysis.CSharp</NuGetReference>
   <NuGetReference>NodaTime</NuGetReference>
+  <Namespace>Microsoft.CodeAnalysis.CSharp</Namespace>
+  <Namespace>Microsoft.CodeAnalysis.CSharp.Syntax</Namespace>
   <Namespace>NodaTime</Namespace>
   <Namespace>NodaTime.Calendars</Namespace>
   <Namespace>NodaTime.Extensions</Namespace>
@@ -13,11 +15,9 @@
   <Namespace>System.Numerics</Namespace>
 </Query>
 
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 var @namespace = "Localization";
-var outputDirectory = new DirectoryInfo(Path.Combine("C:/repos/frankhaugen/frankhaugen.github.io/LinqPadFiles", @namespace));
+//var outputDirectory = new DirectoryInfo(Path.Combine("C:/repos/GitHub/frankhaugen.github.io/LinqPadFiles", @namespace));
+var outputDirectory = new DirectoryInfo(@"C:\repos\Bilagos.Common\Semine.Common.Localization");
 outputDirectory.Create();
 
 var stringBuilder = new StringBuilder();
@@ -31,6 +31,11 @@ var indent = new StringBuilder()
 stringBuilder.AppendLine("using System.Globalization;");
 stringBuilder.AppendLine("using System.ComponentModel;");
 stringBuilder.AppendLine("");
+AddRegion();
+
+AddCultures();
+stringBuilder.AppendLine("public readonly record struct LocalizationOptions(Culture Culture, Region Region);");
+
 AddAttributes();
 AddCultureExtensions();
 stringBuilder.AppendLine("");
@@ -40,13 +45,12 @@ stringBuilder.AppendLine("///<summary></summary>");
 stringBuilder.AppendLine("public readonly record struct LocalizationOptions(Culture Culture, Region Region);");
 stringBuilder.AppendLine("public readonly record struct RegionLocation(Region Region, float Latitude, float Longitude, string Name);");
 stringBuilder.AppendLine("");
-AddRegion();
-//AddCultures();
 //AddTimezone();
 
 
 RunRoslyAndOutput();
 
+//void WriteFile(string identifier, string code) => code.Dump(); // File.WriteAllText(Path.Combine(outputDirectory.FullName, identifier + ".cs"), code);
 void WriteFile(string identifier, string code) => File.WriteAllText(Path.Combine(outputDirectory.FullName, identifier + ".cs"), code);
 
 
@@ -64,9 +68,9 @@ void RunRoslyAndOutput()
 		.AppendLine("using System.Globalization;")
 		.AppendLine("using System.ComponentModel;")
 		.AppendLine("using System.Numerics;")
-		//.AppendLine("")
-		//.AppendLine($"namespace {@namespace};")
-		//.AppendLine("")
+		.AppendLine("")
+		.AppendLine($"namespace {@namespace};")
+		.AppendLine("")
 		.ToString();
 
 	foreach (var element in types)
@@ -98,27 +102,58 @@ void AddRegion()
 	stringBuilder.AppendLine("public enum Region");
 	stringBuilder.AppendLine("{");
 
-	var regions = GetRegions(GetCultures()).OrderBy(x => x.Value.Name);
-	var csvFile = new FileInfo("C:/repos/frankhaugen/frankhaugen.github.io/LinqPadFiles/Localization/CountryLatitudeLongitudeName.csv");
+	var csvFile = new FileInfo(@"C:\repos\frankhaugen\frankhaugen.github.io\LinqPadFiles\CountryLatitudeLongitudeName.csv");
 	var csv = File.ReadAllLines(csvFile.FullName);
+
+	//for (int i = 1; i <= csv.Length; i++)
+	//{
+	//	var row = csv[i];
+	//	var cells = row.Split("\t");
+	//	var code = cells[0];
+	//	var latitude = cells[1];
+	//	var longitude = cells[2];
+	//	var name = cells[3];
+	//	
+	//	var region = new RegionInfo(code);
+	//	
+	//	stringBuilder.AppendLine($"{indent}/// <summary>{region.EnglishName}</summary>");
+	//	stringBuilder.AppendLine($"{indent}[NativeName(\"{region.NativeName}\")]");
+	//	stringBuilder.AppendLine($"{indent}[EnglishName(\"{region.EnglishName}\")]");
+	//	stringBuilder.AppendLine($"{indent}[Coordinates({latitude}f, {longitude}f)]");
+	//	stringBuilder.AppendLine($"{indent}{code.ToUpperInvariant()} = {region.GeoId},\n");
+	//}
+
+	var regions = CultureInfo.GetCultures(CultureTypes.AllCultures)
+			.Where(x => !x.IsNeutralCulture)
+			.Where(x => x.Name != "")
+			.Select(x => new RegionInfo(x.LCID))
+			.OrderByDescending(x => x.Name)
+			.DistinctBy(x => x.Name)
+			.OrderBy(x => x.Name)
+			.Where(x => x.Name.All(y => Char.IsLetter(y)));
 
 	foreach (var region in regions)
 	{
-		var row = csv.FirstOrDefault(x => x.StartsWith(region.Value.Name));
-		
-		stringBuilder.AppendLine($"{indent}/// <summary>{region.Value.EnglishName}</summary>");
-		stringBuilder.AppendLine($"{indent}[NativeName(\"{region.Value.NativeName}\")]");
-		stringBuilder.AppendLine($"{indent}[EnglishName(\"{region.Value.EnglishName}\")]");
+		var row = csv.FirstOrDefault(x => x.StartsWith(region.Name, StringComparison.OrdinalIgnoreCase));
+
+		stringBuilder.AppendLine($"{indent}/// <summary>{region.EnglishName}</summary>");
+		stringBuilder.AppendLine($"{indent}[NativeName(\"{region.NativeName}\")]");
+		stringBuilder.AppendLine($"{indent}[EnglishName(\"{region.EnglishName}\")]");
 
 		if (row != null)
 		{
 			var cells = row.Split("\t");
-			stringBuilder.AppendLine($"{indent}[Coordinates({cells[1]}, {cells[2]})]");
+			stringBuilder.AppendLine($"{indent}[Coordinates({cells[1]}f, {cells[2]}f)]");
 		}
-		
-		stringBuilder.AppendLine($"{indent}[Description(\"{region.Value.EnglishName}\")]");
-		stringBuilder.AppendLine($"{indent}{region.Value.Name} = {region.Value.GeoId},\n");
+
+		stringBuilder.AppendLine($"{indent}{region.Name} = {region.GeoId},\n");
 	}
+
+	stringBuilder.AppendLine($"{indent}/// <summary>World</summary>");
+	stringBuilder.AppendLine($"{indent}[NativeName(\"World\")]");
+	stringBuilder.AppendLine($"{indent}[EnglishName(\"World\")]");
+	stringBuilder.AppendLine($"{indent}[Coordinates(0.0f, 0.0f)]");
+	stringBuilder.AppendLine($"{indent}World = 1,\n");
 	stringBuilder.AppendLine("}\n");
 
 }
@@ -139,7 +174,13 @@ void AddCultures()
 			stringBuilder.AppendLine($"{indent}[NativeName(\"{culture.NativeName}\")]");
 			stringBuilder.AppendLine($"{indent}[EnglishName(\"{culture.EnglishName}\")]");
 			stringBuilder.AppendLine($"{indent}[CultureInfoName(\"{culture.Name}\")]");
-			stringBuilder.AppendLine($"{indent}[Description(\"{culture.EnglishName}\")]");
+			
+			if (TryGetRegionInfo(culture, out var region) && region.TwoLetterISORegionName.All(x => !Char.IsDigit(x)))
+			{
+				stringBuilder.AppendLine($"{indent}[Region(Region.{region.TwoLetterISORegionName.ToUpper()})]");
+				stringBuilder.AppendLine($"{indent}[CountryName(\"{region.EnglishName}\")]");
+			}
+			
 			stringBuilder.AppendLine($"{indent}{culture.TwoLetterISOLanguageName.ToUpperInvariant()} = {regionInfo?.GeoId}, // LCID: {culture.LCID}\n");
 			codes.Add(culture.TwoLetterISOLanguageName.ToUpperInvariant());
 		}
@@ -149,30 +190,22 @@ void AddCultures()
 
 
 List<CultureInfo> GetCultures() => CultureInfo.GetCultures(CultureTypes.AllCultures)
-	.DistinctBy(x => x.Name)
-	.ToList();
-
-Dictionary<int, RegionInfo> GetRegions(List<CultureInfo> cultures)
-{
-	var regions = new Dictionary<int, RegionInfo>();
-
-	CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures)
-			.Select(x => new RegionInfo(x.LCID))
-			.DistinctBy(x => x.Name)
+			.Where(x => x.Parent.Name == "")
+			.Where(x => x.ThreeLetterWindowsLanguageName != "ZZZ")
+			.DistinctBy(x => x.EnglishName)
 			.OrderBy(x => x.Name)
-			.Where(x => x.ThreeLetterISORegionName.Any());
+			.ToList();
 
-	return regions;
-}
+//List<RegionInfo> GetRegions() => GetCultures().Where(x => x.Name != "" && x.Name.All(x => Char.IsLetter(x))).Select(x => new RegionInfo(x.Name)).DistinctBy(x => x.Name).OrderBy(x => x.Name).ToList();
 
 bool TryGetRegionInfo(CultureInfo culture, out RegionInfo? regionInfo)
 {
 	var name = culture.Name;
 	
-	if (name.Equals("IV", StringComparison.InvariantCultureIgnoreCase))
-	{
-		name = "US";
-	}
+	//if (name.Equals("IV", StringComparison.InvariantCultureIgnoreCase))
+	//{
+	//	name = "US";
+	//}
 	
 	try
 	{
@@ -190,6 +223,7 @@ void AddCultureExtensions()
 {
 	stringBuilder.AppendLine("public static class CultureExtensions");
 	stringBuilder.AppendLine("{");
+	stringBuilder.AppendLine(indent + "public static Region GetRegion(this Culture code) => (code.GetType().GetMember(code.ToString())[0].GetCustomAttributes(typeof(RegionAttribute), false)[0] as RegionAttribute)?.Region ?? Region.World;");
 	stringBuilder.AppendLine(indent + "public static string GetCultureInfoName(this Culture code) => (code.GetType().GetMember(code.ToString())[0].GetCustomAttributes(typeof(CultureInfoNameAttribute), false)[0] as CultureInfoNameAttribute)?.CultureInfoName ?? string.Empty;");
 	stringBuilder.AppendLine(indent + "public static string GetNativeName(this Culture code) => (code.GetType().GetMember(code.ToString())[0].GetCustomAttributes(typeof(NativeNameAttribute), false)[0] as NativeNameAttribute)?.LocalName ?? string.Empty;");
 	stringBuilder.AppendLine(indent + "public static string GetEnglishName(this Culture code) => (code.GetType().GetMember(code.ToString())[0].GetCustomAttributes(typeof(EnglishNameAttribute), false)[0] as EnglishNameAttribute)?.EnglishName ?? string.Empty;");
@@ -213,7 +247,7 @@ void AddTimezone()
 	{
 		var nameParts = timezone.Id.Split("/");
 		stringBuilder.AppendLine($"{indent}/// <summary>{derpzones.FirstOrDefault(x => x.Equals(timezone))}</summary>");
-		stringBuilder.AppendLine($"{indent}{nameParts.FirstOrDefault()}_{nameParts.LastOrDefault()},\n");
+		stringBuilder.AppendLine($"{indent}{nameParts.FirstOrDefault()}_{nameParts.LastOrDefault()},\n".Replace("-", "_"));
 	}
 	stringBuilder.AppendLine("}\n");
 
@@ -256,6 +290,12 @@ void AddTimezone()
 
 void AddAttributes()
 {
+	stringBuilder.AppendLine("public class RegionAttribute : Attribute");
+	stringBuilder.AppendLine("{");
+	stringBuilder.AppendLine(indent + "public Region Region { get; }");
+	stringBuilder.AppendLine(indent + "public RegionAttribute(Region region) => Region = region;");
+	stringBuilder.AppendLine("}");
+	stringBuilder.AppendLine("");
 	stringBuilder.AppendLine("public class CoordinatesAttribute : Attribute");
 	stringBuilder.AppendLine("{");
 	stringBuilder.AppendLine(indent + "public Vector2 Coordinates { get; }");
@@ -272,6 +312,18 @@ void AddAttributes()
 	stringBuilder.AppendLine("{");
 	stringBuilder.AppendLine(indent + "public string EnglishName { get; }");
 	stringBuilder.AppendLine(indent + "public EnglishNameAttribute(string englishName) => EnglishName = englishName;");
+	stringBuilder.AppendLine("}");
+	stringBuilder.AppendLine("");
+	stringBuilder.AppendLine("public class CountryNameAttribute : Attribute");
+	stringBuilder.AppendLine("{");
+	stringBuilder.AppendLine(indent + "public string CountryName { get; }");
+	stringBuilder.AppendLine(indent + "public CountryNameAttribute(string countryName) => CountryName = countryName;");
+	stringBuilder.AppendLine("}");
+	stringBuilder.AppendLine("");
+	stringBuilder.AppendLine("public class CultureInfoNameAttribute : Attribute");
+	stringBuilder.AppendLine("{");
+	stringBuilder.AppendLine(indent + "public string CultureInfoName { get; }");
+	stringBuilder.AppendLine(indent + "public CultureInfoNameAttribute(string cultureInfoName) => CultureInfoName = cultureInfoName;");
 	stringBuilder.AppendLine("}");
 	stringBuilder.AppendLine("");
 }
