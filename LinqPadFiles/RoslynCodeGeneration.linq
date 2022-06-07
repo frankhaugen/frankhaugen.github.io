@@ -156,13 +156,11 @@ Dictionary<int, RegionInfo> GetRegions(List<CultureInfo> cultures)
 {
 	var regions = new Dictionary<int, RegionInfo>();
 
-	foreach (var culture in cultures)
-	{
-		if (TryGetRegionInfo(culture, out var regionInfo) && regionInfo != null && regionInfo.TwoLetterISORegionName.All(Char.IsLetter))
-		{
-			regions.TryAdd(regionInfo.GeoId, regionInfo);
-		}
-	}
+	CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures)
+			.Select(x => new RegionInfo(x.LCID))
+			.DistinctBy(x => x.Name)
+			.OrderBy(x => x.Name)
+			.Where(x => x.ThreeLetterISORegionName.Any());
 
 	return regions;
 }
