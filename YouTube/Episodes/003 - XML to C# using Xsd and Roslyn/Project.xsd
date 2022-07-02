@@ -1,0 +1,43 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name = "Project">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name = "PropertyGroup">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element type = " xs: string" name = "TargetFramework"/>
+                            <xs:element type = " xs: float" name = "LangVersion"/>
+                            <xs:element type = " xs: string" name = "Nullable"/>
+                            <xs:element type = " xs: string" name = "IsPackable"/>
+                            <xs:element type = " xs: string" name = "RepositoryType"/>
+                            <xs:element type = " xs: string" name = "RepositoryUrl"/>
+                            <xs:element type = " xs: string" name = "PackageProjectUrl"/>
+                            <xs:element type = " xs: string" name = "Copyright"/>
+                            <xs:element type = " xs: string" name = "PackageLicenseExpression"/>
+                            <xs:element type = " xs: string" name = "PackageRequireLicenseAcceptance"/>
+                            <xs:element type = " xs: string" name = "PackageIcon"/>
+                            <xs:element type = " xs: string" name = "Authors"/>
+                            <xs:element type = " xs: short" name = "NoWarn"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name = "ItemGroup" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name = "None">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element type = " xs: string" name = "Pack"/>
+                                    </xs:sequence>
+                                    <xs:attribute type="xs:string" name="Include"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute type = "xs:string" name = "Sdk"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

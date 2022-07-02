@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>SaveCodeAsFilePerClass</Title>
+      <Description>SaveCodeAsFilePerClass</Description>
+      <Shortcut>SaveCodeAsFilePerClass</Shortcut>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <References>
+        <Reference>
+          <Assembly>nuget:Microsoft.CodeAnalysis.CSharp</Assembly>
+        </Reference>
+      </References>
+      <Imports>
+        <Import>
+          <Namespace>Microsoft.CodeAnalysis.CSharp</Namespace>
+        </Import>
+        <Import>
+          <Namespace>Microsoft.CodeAnalysis.CSharp.Syntax</Namespace>
+        </Import>
+      </Imports>
+      <Code Language="CSharp"><![CDATA[void RunRoslyAndOutput(string code, DirectoryInfo outputDirectory, string @namespace)
+{
+	var text = code;
+	var syntaxTree = CSharpSyntaxTree.ParseText(text);
+	var root = syntaxTree.GetRoot() as CompilationUnitSyntax;
+	if (root == null) throw new NullReferenceException();
+	var enums = root.Members.OfType<EnumDeclarationSyntax>();
+	var types = root.Members.OfType<TypeDeclarationSyntax>();
+
+	var usings = new StringBuilder()
+		.AppendLine($"namespace {@namespace};")
+		.ToString();
+
+	foreach (var element in types)
+		File.WriteAllText(Path.Combine(outputDirectory.FullName, element.Identifier.ToString() + ".cs"), usings + element.ToFullString());
+	foreach (var element in enums)
+		File.WriteAllText(Path.Combine(outputDirectory.FullName, element.Identifier.ToString() + ".cs"), usings + element.ToFullString());
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
