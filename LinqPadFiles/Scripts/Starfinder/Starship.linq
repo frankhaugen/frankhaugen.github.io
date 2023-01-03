@@ -1,4 +1,4 @@
-<Query Kind="Statements">
+<Query Kind="Expression">
   <Reference Relative="..\..\..\..\Frank.Libraries\src\Frank.Libraries.Gaming\Starfinder\Space\Armor.cs">C:\repos\frankhaugen\Frank.Libraries\src\Frank.Libraries.Gaming\Starfinder\Space\Armor.cs</Reference>
   <Reference Relative="..\..\..\..\Frank.Libraries\src\Frank.Libraries.Gaming\Starfinder\Space\Computer.cs">C:\repos\frankhaugen\Frank.Libraries\src\Frank.Libraries.Gaming\Starfinder\Space\Computer.cs</Reference>
   <Reference Relative="..\..\..\..\Frank.Libraries\src\Frank.Libraries.Gaming\Starfinder\Space\CrewMember.cs">C:\repos\frankhaugen\Frank.Libraries\src\Frank.Libraries.Gaming\Starfinder\Space\CrewMember.cs</Reference>

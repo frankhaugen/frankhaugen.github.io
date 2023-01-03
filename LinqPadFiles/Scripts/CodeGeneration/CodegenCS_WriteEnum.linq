@@ -1,5 +1,5 @@
 <Query Kind="Statements">
-  <Reference Relative="..\..\..\Semine.IntegrationEngine\Semine.IntegrationEngine.UnusedCode\bin\Debug\net5.0\Semine.IntegrationEngine.UnusedCode.dll">C:\repos\Semine.IntegrationEngine\Semine.IntegrationEngine.UnusedCode\bin\Debug\net5.0\Semine.IntegrationEngine.UnusedCode.dll</Reference>
+  <Reference Relative="..\..\..\company.IntegrationEngine\company.IntegrationEngine.UnusedCode\bin\Debug\net5.0\company.IntegrationEngine.UnusedCode.dll">C:\repos\company.IntegrationEngine\company.IntegrationEngine.UnusedCode\bin\Debug\net5.0\company.IntegrationEngine.UnusedCode.dll</Reference>
   <NuGetReference>CodegenCS</NuGetReference>
   <Namespace>CodegenCS</Namespace>
   <Namespace>CodegenCS.ControlFlow</Namespace>
@@ -25,9 +25,9 @@
   <Namespace>NJsonSchema.Validation</Namespace>
   <Namespace>NJsonSchema.Validation.FormatValidators</Namespace>
   <Namespace>NJsonSchema.Visitors</Namespace>
-  <Namespace>Semine.IntegrationEngine.UnusedCode</Namespace>
-  <Namespace>Semine.IntegrationEngine.UnusedCode.CodeGeneration</Namespace>
-  <Namespace>Semine.IntegrationEngine.UnusedCode.CodeGeneration.Models</Namespace>
+  <Namespace>company.IntegrationEngine.UnusedCode</Namespace>
+  <Namespace>company.IntegrationEngine.UnusedCode.CodeGeneration</Namespace>
+  <Namespace>company.IntegrationEngine.UnusedCode.CodeGeneration.Models</Namespace>
   <Namespace>System.Globalization</Namespace>
   <Namespace>System.Runtime.Serialization.Formatters</Namespace>
 </Query>

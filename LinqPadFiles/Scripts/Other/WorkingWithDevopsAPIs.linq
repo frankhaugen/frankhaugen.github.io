@@ -170,24 +170,48 @@
   <Namespace>System.Globalization</Namespace>
   <Namespace>System.Net.Http</Namespace>
   <Namespace>System.Net.Http.Headers</Namespace>
+  <Namespace>System.IO.Compression</Namespace>
 </Query>
 
 
-var  connection = new VssConnection(new Uri(url), new VssBasicCredential(string.Empty, personalAccessToken));
+var PAT = Util.GetPassword("azure-devops-PAT");
+var URL = Util.GetPassword("azure-devops-URL");
+
+var  connection = new VssConnection(new Uri(URL), new VssBasicCredential(string.Empty, PAT));
 
 var projectClient = connection.GetClient<ProjectHttpClient>();
 var gitClient = connection.GetClient<GitHttpClient>();
 var buildClient = connection.GetClient<BuildHttpClient>();
-var workItemClient = connection.GetClient<WorkItemTrackingHttpClient>();
 
-var project = await projectClient.GetProject("2b4c8dd9-230b-4492-8f3b-80db6b2452ce");
-var repositories = await gitClient.GetRepositoriesAsync(project.Id);
-var builds = await buildClient.GetBuildsAsync(project.Id, repositoryType: RepositoryTypes.TfsGit, repositoryId: repositories.First(x => x.Name.Contains("Semine.Email")).Id.ToString());
-var buildDefinitions = await buildClient.GetDefinitionsAsync(project.Id, repositoryType: RepositoryTypes.TfsGit, repositoryId: repositories.First(x => x.Name.Contains("Semine.Email")).Id.ToString());
+var projects = await projectClient.GetProjects();
+var repositories = projects.SelectMany(x => gitClient.GetRepositoriesAsync(x.Id).GetAwaiter().GetResult());
 
+var solutionName = "MyTempSolution";
+var reposPath = "C:/temprepos";
 
-buildDefinitions.Dump();
-builds.Dump();
+Directory.CreateDirectory(reposPath);
 
+repositories.ToList().ForEach(x => Download(reposPath, x.WebUrl));
 
-readonly record struct Change(string Build, string Name, DateTime Released);
+repositories.Select(x => gitClient.GetItemAsync().GetAwaiter().GetResult()
+
+CreateSoution(reposPath, solutionName);
+
+void Download(string reposPath, zipFile)
+{
+    
+}
+
+void Download(string reposPath, string url)
+{
+    var start = new ProcessStartInfo("git", $"clone {url}");
+    start.WorkingDirectory = reposPath;
+    System.Diagnostics.Process.Start(start);
+}
+
+void CreateSoution(string reposPath, string name)
+{
+    var start = new ProcessStartInfo("dotnet", $"new sln {name}");
+    start.WorkingDirectory = reposPath;
+    System.Diagnostics.Process.Start(start);
+}

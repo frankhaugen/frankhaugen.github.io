@@ -7,7 +7,7 @@
 
 #load "C:\repos\frankhaugen\frankhaugen.github.io\LinqPadFiles\Scripts\CodeGeneration\Roslyn - Get classes and types as seperate strings.linq"
 
-var schemaPath = "C:/Users/frank/Downloads/dnd5e_json_schema-master/schemas/Character.schema.json";
+var schemaPath = "C:/Users/frank/Downloads/dnd5e_json_schema-master/schemas/Class.schema.json";
 var schemaFileName = schemaPath.Split("/").LastOrDefault();
 var @namespace = schemaPath.Split(".").FirstOrDefault();
 

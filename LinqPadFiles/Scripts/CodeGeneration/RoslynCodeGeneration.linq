@@ -17,7 +17,7 @@
 
 var @namespace = "Localization";
 //var outputDirectory = new DirectoryInfo(Path.Combine("C:/repos/GitHub/frankhaugen.github.io/LinqPadFiles", @namespace));
-var outputDirectory = new DirectoryInfo(@"C:\repos\Bilagos.Common\Semine.Common.Localization");
+var outputDirectory = new DirectoryInfo(@"C:\repos\Company.Common\Company.Common.Localization");
 outputDirectory.Create();
 
 var stringBuilder = new StringBuilder();

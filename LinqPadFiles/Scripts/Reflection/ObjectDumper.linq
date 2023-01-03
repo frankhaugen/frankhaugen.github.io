@@ -1,5 +1,5 @@
 <Query Kind="Statements">
-  <Reference Relative="..\..\..\SemineInvoiceGenerator\SemineInvoiceGenerator\bin\Debug\net6.0-windows\SemineInvoiceGenerator.dll">C:\repos\SemineInvoiceGenerator\SemineInvoiceGenerator\bin\Debug\net6.0-windows\SemineInvoiceGenerator.dll</Reference>
+  <Reference Relative="..\..\..\companyInvoiceGenerator\companyInvoiceGenerator\bin\Debug\net6.0-windows\companyInvoiceGenerator.dll">C:\repos\companyInvoiceGenerator\companyInvoiceGenerator\bin\Debug\net6.0-windows\companyInvoiceGenerator.dll</Reference>
   <NuGetReference>Newtonsoft.Json</NuGetReference>
   <NuGetReference>ObjectDumper.NET</NuGetReference>
   <Namespace>Newtonsoft.Json</Namespace>
@@ -9,17 +9,17 @@
   <Namespace>Newtonsoft.Json.Schema</Namespace>
   <Namespace>Newtonsoft.Json.Serialization</Namespace>
   <Namespace>ObjectDumping.Internal</Namespace>
-  <Namespace>SemineInvoiceGenerator.Models.SemineIntegrationApi</Namespace>
+  <Namespace>companyInvoiceGenerator.Models.companyIntegrationApi</Namespace>
   <Namespace>System.Globalization</Namespace>
 </Query>
 
-var inputDirectory = new DirectoryInfo(@"C:\repos\SemineConnect.24SevenOffice\SemineConnect.24SevenOffice.Tests\Files\Invoices");
+var inputDirectory = new DirectoryInfo(@"C:\repos\companyConnect.24SevenOffice\companyConnect.24SevenOffice.Tests\Files\Invoices");
 
 var inputFiles = inputDirectory.EnumerateFiles("*.json");
 
 //inputFiles.Select(x => x.Name).Dump<IEnumerable<string>>();
 
-//var inputJsonFile = new FileInfo(@"C:\repos\SemineConnect.24SevenOffice\SemineConnect.24SevenOffice.Tests\Files\Invoices\TfsoSalmonVoucher50332Failure.json");
+//var inputJsonFile = new FileInfo(@"C:\repos\companyConnect.24SevenOffice\companyConnect.24SevenOffice.Tests\Files\Invoices\TfsoSalmonVoucher50332Failure.json");
 //var input = JsonConvert.DeserializeObject<InvoiceDetails>(inputJson);
 
 //var output = ObjectDumper.Dump(input, DumpStyle.CSharp);
