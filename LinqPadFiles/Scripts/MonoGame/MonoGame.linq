@@ -1,4 +1,5 @@
-<Query Kind="Statements">
+<Query Kind="Program">
+  <NuGetReference>Microsoft.Extensions.Hosting</NuGetReference>
   <NuGetReference>MonoGame.Extended.Collisions</NuGetReference>
   <NuGetReference>MonoGame.Extended.Entities</NuGetReference>
   <NuGetReference>MonoGame.Extended.Graphics</NuGetReference>
@@ -25,65 +26,20 @@
   <Namespace>MonoGame.Framework.Utilities</Namespace>
   <Namespace>MonoGame.Framework.Utilities.Deflate</Namespace>
   <Namespace>System.Globalization</Namespace>
+  <Namespace>System.Threading.Tasks</Namespace>
+  <Namespace>Microsoft.Extensions.Logging</Namespace>
   <IncludeWinSDK>true</IncludeWinSDK>
   <CopyLocal>true</CopyLocal>
 </Query>
 
-
-using(var game = new MyGame())
+void Main()
 {
-    game.Run();
+    var builder = Host.CreateApplicationBuilder();
+
+        
+    var app = builder.Build();
+    app.Run();
 }
-
-
-
-
-
-class MyGame : Game
-{
-    
-    private readonly GraphicsDeviceManager _graphicsManager;
-    private SpriteBatch _spriteBatch;
-    
-    public MyGame()
-    {
-        _graphicsManager = new GraphicsDeviceManager(this);   
-        IsMouseVisible = true;
-    }
-
-    protected override void LoadContent()
-    {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-        base.LoadContent();
-    }
-
-    protected override void Draw(GameTime gameTime)
-    {
-
-        GraphicsDevice.Clear(Color.Black);
-
-        _spriteBatch.Begin();
-        
-        
-        
-        
-
-        _spriteBatch.End();
-
-
-
-        base.Draw(gameTime);
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        EndRun();
-        base.Dispose(disposing);
-    }
-
-}
-
 
 
 

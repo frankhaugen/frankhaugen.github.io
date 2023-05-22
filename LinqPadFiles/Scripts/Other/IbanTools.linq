@@ -19,7 +19,7 @@ public class Iban
 		Value = iban;
 	}
 	
-	public static bool IsValid(string iban)
+	public bool IsValid()
 	{
 		
 	}

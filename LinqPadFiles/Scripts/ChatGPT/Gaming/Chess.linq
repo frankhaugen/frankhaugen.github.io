@@ -91,22 +91,7 @@ public static class JsonHelper
 	}
 }
 
-public interface IRule<T>
-{
-	bool Validate(int row, int col, T value, IGameBoard<T> gameBoard);
-	string GetRuleFailureMessage();
-}
-public interface IGameBoard<T>
-{
-	T GetValue(Position position);
-	void SetValue(Position position, T value);
-	T[,] GetBoard();
-}
-public interface IRulesSet<T>
-{
-	bool Validate(int row, int col, T value);
-	string GetValidationFailureMessage(Position position, T value);
-}
+
 public class GameBoardConverter<T> : JsonConverter<GameBoard<T>>
 {
 	public override GameBoard<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -594,4 +579,21 @@ public class GameBoard<T> : IGameBoard<T>
 	{
 		return (T[,])Board.Clone();
 	}
+}
+
+public interface IRule<T>
+{
+    bool Validate(int row, int col, T value, IGameBoard<T> gameBoard);
+    string GetRuleFailureMessage();
+}
+public interface IGameBoard<T>
+{
+    T GetValue(Position position);
+    void SetValue(Position position, T value);
+    T[,] GetBoard();
+}
+public interface IRulesSet<T>
+{
+    bool Validate(int row, int col, T value);
+    string GetValidationFailureMessage(Position position, T value);
 }

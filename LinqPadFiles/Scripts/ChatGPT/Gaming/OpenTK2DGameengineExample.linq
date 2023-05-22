@@ -72,9 +72,9 @@ public class Game
                 projectile.DragCoefficient
             );
 
-            // Update the position and velocity of the projectile
-            projectile.Position += projectile.Velocity * dt;
+            // Update the velocity and position of the projectile
             projectile.Velocity += acceleration * dt;
+            projectile.Position += projectile.Velocity * dt;
         }
     }
 

@@ -7,7 +7,7 @@
 
 #load "C:\repos\frankhaugen\frankhaugen.github.io\LinqPadFiles\Scripts\CodeGeneration\Roslyn - Get classes and types as seperate strings.linq"
 
-var schemaPath = "C:/Users/frank/Downloads/dnd5e_json_schema-master/schemas/Class.schema.json";
+var schemaPath = "C:/temp/launchsettings.json";
 var schemaFileName = schemaPath.Split("/").LastOrDefault();
 var @namespace = schemaPath.Split(".").FirstOrDefault();
 
@@ -21,12 +21,13 @@ var schemaFromFile = JsonSchema.FromSampleJson(json);
 var classGenerator = new CSharpGenerator(schemaFromFile, new CSharpGeneratorSettings
 {
     ClassStyle = CSharpClassStyle.Poco,
-    //GenerateOptionalPropertiesAsNullable = true,
-    GenerateNativeRecords = true,
+    GenerateOptionalPropertiesAsNullable = true,
+    //GenerateNativeRecords = true,
+    
     GenerateNullableReferenceTypes = true,
     //RequiredPropertiesMustBeDefined = false
     //GenerateDataAnnotations = false,
-    //ArrayType = "List"
+    ArrayType = "List"
 });
 var codeFile = classGenerator
         .GenerateFile()
@@ -37,15 +38,22 @@ var codeFile = classGenerator
         .Replace("10.8.0.0 (Newtonsoft.Json v9.0.0.0)", "System.Text.Json")
         .Replace("\n\n\n", "\n")
         ;
-//File.WriteAllText("C:/temp/DnDCharacter.cs", codeFile);
+        
 //codeFile.Dump();
 
 
-var outputDirectory = new DirectoryInfo(Path.Combine(@"C:\temp\Models", @namespace));
+var outputDirectory = new DirectoryInfo(Path.Combine(@"C:\temp\LaunchSettingsModels", @namespace));
 if (!outputDirectory.Exists)
 {
     outputDirectory.Create();
 }
 
-var result = SeparateCodeToFiles(codeFile, outputDirectory);
-result.Dump();
+var results = SeparateCodeToFiles(codeFile, outputDirectory);
+
+foreach (var result in results)
+{
+    File.WriteAllText(result.Key.FullName, result.Value.Replace("public partial class", "public class"));
+
+}
+
+
