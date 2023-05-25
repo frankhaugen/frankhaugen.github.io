@@ -202,6 +202,35 @@ public static class StringExtensions
 
 public static class MethodInfoExtensions
 {
+    public static bool IsPropertyMethod(this MethodInfo methodInfo) => methodInfo.IsSpecialName && (methodInfo.Name.StartsWith("get_") || methodInfo.Name.StartsWith("set_"));
+    
+    public static bool IsBaseMethod(this MethodInfo methodInfo)
+    {
+        if (methodInfo.IsPrivate)
+        {
+            return true;
+        }
+        
+        var type = methodInfo.DeclaringType;
+        
+        if (type?.BaseType != null && type.BaseType.GetMethods().Select(x => x.Name).Contains(methodInfo.Name))
+        {
+            return true;
+        }
+
+        // Check if the method is declared in the base class
+        if (methodInfo.DeclaringType != null && methodInfo.DeclaringType != methodInfo.ReflectedType)
+        {
+            // Check if the method is not overridden in the derived class
+            var baseMethodInfo = methodInfo.DeclaringType.GetMethod(methodInfo.Name, methodInfo.GetParameters().Select(p => p.ParameterType).ToArray());
+            if (baseMethodInfo != null && baseMethodInfo.Equals(methodInfo))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public static bool IsAsync(this MethodInfo methodInfo) => methodInfo.ReturnType == typeof(Task) || methodInfo.ReturnType.IsGenericType && methodInfo.ReturnType.GetGenericTypeDefinition() == typeof(Task<>);
 
     public static MethodVariant GetMethodVariant(this MethodInfo methodInfo)
@@ -233,6 +262,8 @@ public static class MethodInfoExtensions
 
 public static class TypeExtensions
 {
+    public static bool HasBaseType(this Type type) => type.BaseType != null;
+    
     public static bool IsStatic(this Type type) => type is { IsAbstract: true, IsSealed: true };
 
     public static TypeVariant GetTypeVariant(this Type type)
@@ -246,6 +277,19 @@ public static class TypeExtensions
         if (typeAttributes.HasFlag(TypeAttributes.Class))
             return TypeVariant.Class;
         return TypeVariant.Virtual;
+    }
+
+    public static IEnumerable<string> GetReferencedNamespaces(this Type type)
+    {
+        var types = new List<Type>();
+
+        types.AddRange(type.GetConstructors().SelectMany(x => x.GetParameters().Select(y => y.ParameterType)));
+        types.AddRange(type.GetProperties().Select(x => x.PropertyType));
+        types.AddRange(type.GetFields().Select(x => x.FieldType));
+        types.AddRange(type.GetMethods().SelectMany(x => x.GetParameters().Select(y => y.ParameterType)));
+        types.AddRange(type.GetMethods().Select(x => x.ReturnType));
+
+        return types.Select(x => x.Namespace).Where(x => !string.IsNullOrWhiteSpace(x)).Distinct();
     }
 
     public static string GetFriendlyName(this Type type, bool fullyQualified = false)
