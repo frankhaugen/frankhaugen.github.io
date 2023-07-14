@@ -94,13 +94,13 @@ public class TestMethodGenerator
         switch (methodType)
         {
             case MethodVariant.Instance:
-                invocationExpression = SyntaxFactory.ParseExpression($"_sut.{method.Name}({string.Join(", ", methodParameters.Where(x => !x.HasDefaultValue).Select(x => x.Name))})");
+                invocationExpression = SyntaxFactory.ParseExpression($"{awaitPrefix}_sut.{method.Name}({string.Join(", ", methodParameters.Where(x => !x.HasDefaultValue).Select(x => x.Name))})");
                 break;
             case MethodVariant.Extension:
-                invocationExpression = SyntaxFactory.ParseExpression($"{method.Name}({string.Join(", ", methodParameters.Select(x => x.Name))})");
+                invocationExpression = SyntaxFactory.ParseExpression($"{awaitPrefix}{method.Name}({string.Join(", ", methodParameters.Select(x => x.Name))})");
                 break;
             case MethodVariant.Static:
-                invocationExpression = SyntaxFactory.ParseExpression($"{method.DeclaringType?.GetFriendlyName()}.{method.Name}({string.Join(", ", methodParameters.Select(x => x.Name))})");
+                invocationExpression = SyntaxFactory.ParseExpression($"{awaitPrefix}{method.DeclaringType?.GetFriendlyName()}.{method.Name}({string.Join(", ", methodParameters.Select(x => x.Name))})");
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

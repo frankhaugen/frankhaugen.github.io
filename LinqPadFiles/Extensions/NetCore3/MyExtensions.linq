@@ -1,19 +1,24 @@
 <Query Kind="Program">
   <NuGetReference>CsvHelper</NuGetReference>
   <NuGetReference>LINQPad.SimpleLogging</NuGetReference>
+  <NuGetReference>Markdig</NuGetReference>
   <NuGetReference>Microsoft.Extensions.Hosting</NuGetReference>
   <NuGetReference>Microsoft.Extensions.Logging.Abstractions</NuGetReference>
+  <NuGetReference>Namotion.Reflection</NuGetReference>
   <NuGetReference>VarDump</NuGetReference>
   <Namespace>CsvHelper</Namespace>
   <Namespace>CsvHelper.Configuration</Namespace>
   <Namespace>LINQPad.SimpleLogging</Namespace>
   <Namespace>Microsoft.Extensions.Hosting</Namespace>
   <Namespace>Microsoft.Extensions.Logging</Namespace>
+  <Namespace>Microsoft.Extensions.Logging.Abstractions</Namespace>
   <Namespace>System.Globalization</Namespace>
   <Namespace>System.Net.Http</Namespace>
   <Namespace>System.Numerics</Namespace>
   <Namespace>System.Threading.Tasks</Namespace>
-  <Namespace>Microsoft.Extensions.Logging.Abstractions</Namespace>
+  <Namespace>Markdig</Namespace>
+  <Namespace>Microsoft.Extensions.DependencyInjection</Namespace>
+  <Namespace>Namotion.Reflection</Namespace>
 </Query>
 
 void Main()
@@ -160,8 +165,35 @@ public static class MyExtensions
         var chopIndex = fullName.IndexOf("[[");
         return (chopIndex == -1) ? fullName : fullName.Substring(0, chopIndex);
     }
+
+    public static string DumpServices(this IServiceCollection services)
+    {
+        var pipeline = new MarkdownPipelineBuilder().UsePipeTables().Build();
+
+        var table = new StringBuilder();
+        table.AppendLine("| Service Type | Implementation Type |");
+        table.AppendLine("|--------------|---------------------|");
+
+        foreach (var service in services)
+        {
+            var serviceType = service.ServiceType.GetDisplayName();
+            var implementationType = service.ImplementationType?.GetDisplayName() ?? "<Unknown>";
+
+            table.AppendLine($"| {serviceType} | {implementationType} |");
+        }
+        
+        var html = Markdown.ToHtml(table.ToString(), pipeline);
+        Util.RawHtml(html).Dump();
+
+        return html;
+    }
 }
 
+public static class CancellationTokenUtil
+{
+    public static CancellationToken Get(TimeSpan duration) => new CancellationTokenSource(duration).Token;
+    public static CancellationTokenSource GetSource(TimeSpan duration) => new CancellationTokenSource(duration);
+}
 public static class CsvUtil
 {
     public static List<TClass> ReadCsvData<TClass, TMap>(string csvData, string delimiter = ";") where TMap : ClassMap<TClass> where TClass : class
@@ -328,6 +360,13 @@ public static class AppUtil
         
         return builder;
     }
+    
+    public static HostApplicationBuilder GetHostApplicationBuilder()
+    {
+        var builder = Host.CreateApplicationBuilder();
+        builder.Logging.ClearProviders().AddProvider(new LinqPadLoggerProvider());
+        return builder;
+    }
 }
 
 public static class Downloader
@@ -366,6 +405,35 @@ public class LinqPadLoggerProvider : ILoggerProvider
     }
 }
 
+public class LinqPadLogger<T> : ILogger<T>
+{
+    private readonly string _categoryName;
+
+    public LinqPadLogger()
+    {
+        _categoryName = typeof(T).FriendlyName();
+    }
+
+    public IDisposable BeginScope<TState>(TState state)
+    {
+        return new LinqPadScope();
+    }
+
+    public bool IsEnabled(LogLevel logLevel)
+    {
+        return true;
+    }
+
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+    {
+        var log = new LogThing<TState>(_categoryName, formatter.Invoke(state, exception), logLevel, eventId, state, exception);
+
+        log.Message.Dump();
+    }
+
+    private record LogThing<TState>(string CategoryName, string Message, LogLevel logLevel, EventId eventId, TState state, Exception exception);
+}
+
 public class LinqPadLogger : ILogger
 {
     private readonly string _categoryName;
@@ -377,7 +445,7 @@ public class LinqPadLogger : ILogger
 
     public IDisposable BeginScope<TState>(TState state)
     {
-        return null;
+        return new LinqPadScope();
     }
 
     public bool IsEnabled(LogLevel logLevel)
@@ -393,6 +461,14 @@ public class LinqPadLogger : ILogger
     }
     
     private record LogThing<TState>(string CategoryName, string Message, LogLevel logLevel, EventId eventId, TState state, Exception exception);
+}
+
+public class LinqPadScope : IDisposable
+{
+    public void Dispose()
+    {
+        
+    }
 }
 
 #region Advanced - How to multi-target

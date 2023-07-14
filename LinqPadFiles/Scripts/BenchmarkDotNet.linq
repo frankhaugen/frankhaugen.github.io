@@ -1,5 +1,5 @@
 <Query Kind="Program">
-  <NuGetReference Version="0.13.2">BenchmarkDotNet</NuGetReference>
+  <NuGetReference Version="0.13.5">BenchmarkDotNet</NuGetReference>
   <Namespace>BenchmarkDotNet.Attributes</Namespace>
   <Namespace>BenchmarkDotNet.Configs</Namespace>
   <Namespace>BenchmarkDotNet.Diagnosers</Namespace>
@@ -22,8 +22,8 @@
   <Namespace>System.Threading.Tasks</Namespace>
 </Query>
 
-// This query can be #load-ed into other queries for BenchmarkDotNet support. *V=1.2*
-// You can modify the code to customize benchmarking behavior.
+// This query can be #load-ed into other queries for BenchmarkDotNet support. *V=1.4*
+// You can modify the code to customize benchmarking behavior. LINQPad will merge any subsequent updates.
 
 #LINQPad optimize+   // Enable compiler/JIT optimizations when benchmarking.
                      // You can override this in your query with #LINQPad optimize-
@@ -68,10 +68,15 @@ Summary[] BenchmarkSelectedCode() => RunBenchmark();
 
 /// <summary>Call this from the Main method to benchmark all methods marked with the [Benchmark] attribute.
 /// When allowDumping is false, calls to .Dump() during benchmarking will become no-ops.</summary>
-Summary[] RunBenchmark (bool shortRun = false, bool allowDumping = false)
+Summary[] RunBenchmark (bool shortRun = false, bool allowDumping = false, bool includeUpperOutliers = false)
 {
 	var config = GetBenchmarkConfig();
-	if (shortRun) config = config.AddJob (Job.ShortRun);
+	if (shortRun || includeUpperOutliers)
+	{
+		var job = shortRun ? Job.ShortRun : Job.Default;
+		if (includeUpperOutliers) job = job.WithOutlierMode (Perfolizer.Mathematics.OutlierDetection.OutlierMode.DontRemove);
+		config = config.AddJob (job);
+	}
 	return RunBenchmark (config, allowDumping);
 }
 
@@ -113,6 +118,7 @@ namespace LINQPad.Benchmark
 {
 	sealed class LiveSummaryLogger : ILogger, IDisposable
 	{
+		readonly bool _includeUpperOutliers;
 		readonly BenchmarkEventListener _listener;
 		readonly DumpContainer _resultsContainer, _logContainer = new(), _warningsContainer = new();
 		readonly Control _resultsControl;
@@ -122,11 +128,14 @@ namespace LINQPad.Benchmark
 
 		public LiveSummaryLogger (IConfig config)
 		{
+			var job = config.GetJobs().FirstOrDefault() ?? Job.Default;
+			_includeUpperOutliers = job.ResolveValue (AccuracyMode.OutlierModeCharacteristic, EngineResolver.Instance) == Perfolizer.Mathematics.OutlierDetection.OutlierMode.DontRemove;
+
 			_listener = new();
 			_resultsContainer = new DumpContainer (new { Status = "Waiting for first iteration to complete..." });
 			_resultsControl = _resultsContainer.ToControl();	
 			
-			_logContainer.AppendContent ("(figures are per operation)");
+			_logContainer.AppendContent ("Figures are per operation." + (_includeUpperOutliers ? "" : " Upper outliers are excluded by default."));
 			
 			Util.VerticalRun (GetSummaryInfo(), _resultsControl, _logContainer).Dump ("Benchmark Live Summary", noTotals:true);	
 			_warningsContainer.Dump();
@@ -138,14 +147,12 @@ namespace LINQPad.Benchmark
 			new Hyperlinq (() => Util.OpenSample ("LINQPad Tutorial & Reference/Benchmarking Your Code"), "Learn more about benchmarking in LINQPad", true).Dump();			
 			new Hyperlinq ("https://benchmarkdotnet.org/", "Learn more about the BenchmarkDotNet library").Dump();
 			
-			object GetSummaryInfo() => Util.HorizontalRun (true, GetOptimizationInfo(), GetJobInfo());
+			object GetSummaryInfo() => Util.HorizontalRun (true, GetOptimizationInfo(), job.DisplayInfo);
 			
 			object GetOptimizationInfo() =>
 				IsUnoptimized (GetType().Assembly)
 					? Util.WithStyle ("Optimizations disabled.", "font-weight:bold")
 					: "Optimizations enabled.";
-
-			object GetJobInfo() => config.GetJobs().FirstOrDefault()?.DisplayInfo ?? "";
 		}
 		
 		public string Id => nameof (LiveSummaryLogger);
@@ -167,9 +174,9 @@ namespace LINQPad.Benchmark
 			{
 				Record (Measurement.Parse (text, 0));
 			}
-			else if (logKind == LogKind.Default && text.Contains ("\nGC: "))
+			else if (logKind == LogKind.Default && text.Contains ("\n// GC: "))
 			{
-				string gcLine = text.Split ('\n').First (line => line.StartsWith ("GC: "));
+				string gcLine = text.Split ('\n').First (line => line.StartsWith ("// GC: "));
 				Record (Util.Try (() => GcStats.Parse (gcLine)));
 			}
 			else if (logKind == LogKind.Default && text.Contains ("Exception: "))
@@ -190,8 +197,8 @@ namespace LINQPad.Benchmark
 		{
 			var result = GetLiveResult();
 			if (result == null) return;
-			
-			result.AddMeasurement (m);
+
+			result.AddMeasurement (m, _includeUpperOutliers);
 			double? maxDisplayMax = _results.Max (r => r.GetMax() ?? r.GetMean());   // Will not have min/max if in warmup
 			if (maxDisplayMax < 0.05) return;
 
@@ -395,34 +402,34 @@ namespace LINQPad.Benchmark
 		double? SubtractOverhead (double? value)
 		{
 			if (value == null) return null;
-			var overhead = _overhead.MeanTimeNoMinMax.GetValueOrDefault (0);
+			var overhead = _overhead.MeanTime.GetValueOrDefault (0);
 			if (overhead > value) return 0;
 			return value - overhead;
 		}
 
 		string FormatNanoseconds (double ns) => TimeInterval.FromNanoseconds (ns).ToString (CultureInfo.CurrentCulture, "N2");
 
-		public void AddMeasurement (Measurement m)
+		public void AddMeasurement (Measurement m, bool includeUpperOutliers = false)
 		{
 			if (m.Is (IterationMode.Workload, IterationStage.Pilot))
 			{
 				Phase = Util.Highlight ("Running " + m.IterationStage.ToString().ToLower() + "...");
-				_pilot.Record (m);
+				_pilot.Record (m, includeUpperOutliers);
 			}
 			else if (m.Is (IterationMode.Overhead, IterationStage.Actual))
 			{
 				Phase = Util.Highlight ("Calculating overhead...");
-				_overhead.Record (m);
+				_overhead.Record (m, false);
 			}
 			else if (m.Is (IterationMode.Workload, IterationStage.Warmup))
 			{
 				Phase = Util.Highlight ("Running " + m.IterationStage.ToString().ToLower() + "...");
-				_warmup.Record (m);
+				_warmup.Record (m, includeUpperOutliers);
 			}
 			else if (m.Is (IterationMode.Workload, IterationStage.Actual))
 			{
 				Phase = Util.Highlight ("Running workload...");
-				_workload.Record (m);
+				_workload.Record (m, includeUpperOutliers);
 			}
 		}
 		
@@ -430,6 +437,9 @@ namespace LINQPad.Benchmark
 
 		struct TimeStats
 		{
+			List<Measurement> _measurements;
+			List<Measurement> Measurements => _measurements ??= new();
+
 			public long TotalOperations { get; private set; }
 			public double TotalNanoseconds { get; private set; }
 			
@@ -437,23 +447,59 @@ namespace LINQPad.Benchmark
 			public double? MaxTime { get; private set; }
 			
 			public double? MeanTime => TotalOperations == 0 ? null : ((double)TotalNanoseconds / TotalOperations);
-			
-			public double? MeanTimeNoMinMax =>
-				TotalOperations == 0 ? null :
-				TotalOperations < 3 ? ((double)TotalNanoseconds / TotalOperations) :
-				(((double)TotalNanoseconds - MinTime - MaxTime) / (TotalOperations - 2));
 
 			public bool HasData => TotalOperations > 0;
 
-			public void Record (Measurement m)
+			public void Record (Measurement m, bool includeUpperOutliers = false)
 			{
-				TotalOperations += m.Operations;
-				TotalNanoseconds += m.Nanoseconds;
+				// Insert measurement in order so that we can quickly identify quartiles
+				int index = Measurements.BinarySearch (m);
+				Measurements.Insert ((index >= 0) ? index : ~index, m);
 
-				double time = m.Nanoseconds / (double)m.Operations;
-				if (MinTime == null || time < MinTime) MinTime = time;
-				if (MaxTime == null || time > MaxTime) MaxTime = time;
+				Update (includeUpperOutliers);
 			}
+
+			void Update (bool includeUpperOutliers)
+			{
+				Func<Measurement, bool> isOutlier = m => false;
+
+				if (Measurements.Count > 4 && !includeUpperOutliers)
+				{
+					// Remove upper quartile for consistency with BenchmarkDotNet's default summary logic
+					double q1 = GetQuartile (_measurements.Count / 2);
+					double q3 = GetQuartile (_measurements.Count * 3 / 2);
+					double interquartileRange = q3 - q1;
+					double upperFence = q3 + 1.5 * interquartileRange;
+
+					isOutlier = m => m.Nanoseconds > upperFence;
+				}
+
+				long totalOperations = 0;
+				double totalNanoseconds = 0;
+				double? min = null, max = null;
+
+				foreach (var m in _measurements)
+					if (!isOutlier (m))
+					{
+						totalOperations += m.Operations;
+						totalNanoseconds += m.Nanoseconds;
+
+						double time = m.Nanoseconds / (double)m.Operations;
+
+						if (min == null || time < min) min = time;
+						if (max == null || time > max) max = time;
+					}
+
+				TotalOperations = totalOperations;
+				TotalNanoseconds = totalNanoseconds;
+				MinTime = min;
+				MaxTime = max;
+			}
+
+			double GetQuartile (int count) =>
+				count % 2 == 0
+				? (Measurements [count / 2 - 1].Nanoseconds + Measurements [count / 2].Nanoseconds) / 2
+				: Measurements [count / 2].Nanoseconds;
 		}
 		
 		struct MemoryStats

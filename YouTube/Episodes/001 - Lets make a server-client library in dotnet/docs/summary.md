@@ -1,0 +1,11 @@
+# Summary
+
+If you are interested in building a server/client framework using .NET, you might want to check out the nuget package "Microsoft.AspNetCore.Connections.Abstractions". This package provides a set of abstractions that enable you to create and handle connections between different endpoints, such as TCP sockets, pipes, or in-memory buffers. In this blog post, I will summarize some of the learn.microsoft.com resources that can help you understand and use this package effectively.
+
+The first resource is a video tutorial called "Building a server/client framework with Microsoft.AspNetCore.Connections.Abstractions". In this video, you will learn how to create a simple echo server and client using the ConnectionListener and ConnectionContext classes. You will also see how to use the ConnectionBuilder class to configure the connection pipeline with middleware components that can perform tasks such as logging, compression, or encryption. The video also explains how to handle connection events, such as starting, stopping, or receiving data.
+
+The second resource is a documentation page called "Connection abstractions in ASP.NET Core". This page provides a detailed overview of the connection abstractions and how they relate to other ASP.NET Core components, such as Kestrel, SignalR, or gRPC. You will learn about the key concepts and interfaces that define a connection, such as IConnectionBuilder, IConnectionHandler, IConnectionContext, and IConnectionFeature. You will also find examples of how to create and use custom connection adapters and transports.
+
+The third resource is a sample project called "BedrockFramework". This project demonstrates how to use the connection abstractions to build a high-performance server/client framework that supports multiple protocols and scenarios. You will see how to implement various features, such as HTTP/2, WebSocket, proxying, routing, load balancing, and testing. You will also learn how to use the BedrockFramework library, which provides some common utilities and extensions for working with the connection abstractions.
+
+These are some of the learn.microsoft.com resources that can help you get started with the nuget package "Microsoft.AspNetCore.Connections.Abstractions". I hope you find them useful and informative. If you have any questions or feedback, please leave a comment below.
