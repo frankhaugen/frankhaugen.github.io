@@ -44,6 +44,22 @@ public class SvgRenderer : IRenderer
         var stroke = $"#{0:X2}{0:X2}{0:X2}";
         var strokeWidth = 1;
 
+        var height = 500; // replace with actual height of SVG canvas
+
+        var points = string.Join(" ", polygon.Select(vertex => $"{vertex.X * scale},{height - vertex.Y * scale}"));
+
+        var polygonElement = $"<polygon points='{points}' style='fill:{fill};stroke:{stroke};stroke-width:{strokeWidth}' />";
+        return polygonElement;
+    }
+
+    private static string BuildPolygonElementV1(Polygon polygon)
+    {
+        var scale = 10;
+
+        var fill = $"#{128:X2}{128:X2}{128:X2}";
+        var stroke = $"#{0:X2}{0:X2}{0:X2}";
+        var strokeWidth = 1;
+
         var points = string.Join(" ", polygon.Select(vertex => $"{vertex.X * scale},{vertex.Y * scale}"));
 
         var polygonElement = $"<polygon points='{points}' style='fill:{fill};stroke:{stroke};stroke-width:{strokeWidth}' />";

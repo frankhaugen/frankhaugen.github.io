@@ -5,20 +5,25 @@
   <NuGetReference>Microsoft.Extensions.Hosting</NuGetReference>
   <NuGetReference>Microsoft.Extensions.Logging.Abstractions</NuGetReference>
   <NuGetReference>Namotion.Reflection</NuGetReference>
+  <NuGetReference>OxyPlot.WindowsForms</NuGetReference>
   <NuGetReference>VarDump</NuGetReference>
   <Namespace>CsvHelper</Namespace>
   <Namespace>CsvHelper.Configuration</Namespace>
   <Namespace>LINQPad.SimpleLogging</Namespace>
+  <Namespace>Markdig</Namespace>
+  <Namespace>Microsoft.Extensions.DependencyInjection</Namespace>
   <Namespace>Microsoft.Extensions.Hosting</Namespace>
   <Namespace>Microsoft.Extensions.Logging</Namespace>
   <Namespace>Microsoft.Extensions.Logging.Abstractions</Namespace>
+  <Namespace>Namotion.Reflection</Namespace>
+  <Namespace>OxyPlot</Namespace>
+  <Namespace>OxyPlot.Series</Namespace>
   <Namespace>System.Globalization</Namespace>
   <Namespace>System.Net.Http</Namespace>
   <Namespace>System.Numerics</Namespace>
   <Namespace>System.Threading.Tasks</Namespace>
-  <Namespace>Markdig</Namespace>
-  <Namespace>Microsoft.Extensions.DependencyInjection</Namespace>
-  <Namespace>Namotion.Reflection</Namespace>
+  <Namespace>System.Windows.Forms</Namespace>
+  <Namespace>OxyPlot.Axes</Namespace>
 </Query>
 
 void Main()
@@ -186,6 +191,122 @@ public static class MyExtensions
         Util.RawHtml(html).Dump();
 
         return html;
+    }
+}
+
+public static class PlotHelper
+{
+    public static void PlotDictionaryV2(Dictionary<TimeSpan, Vector3> data, string title)
+    {
+        var model = new PlotModel { Title = title };
+
+        // Create series and axes
+        var lineSeries = new LineSeries { MarkerType = MarkerType.Circle };
+        var timeAxis = new LinearAxis { Position = AxisPosition.Top, Title = "Time (s)" };
+        var distanceAxis = new LinearAxis { Position = AxisPosition.Bottom, Title = "Distance Travelled" };
+        var yAxis = new LinearAxis { Position = AxisPosition.Left, Title = "Y Coordinate" };
+
+        foreach (var point in data)
+        {
+            var timeInSeconds = point.Key.TotalSeconds;
+            var xPosition = point.Value.X;
+            var yPosition = point.Value.Y;
+
+            var xValue = timeInSeconds * xPosition;  // Assuming that distance traveled is represented by xPosition
+            var yValue = yPosition;
+
+            lineSeries.Points.Add(new DataPoint(xValue, yValue));
+            //timeAxis.ActualMaximum = Math.Max(timeAxis.ActualMaximum, timeInSeconds);
+        }
+
+        // Add series and axes to the model
+        model.Series.Add(lineSeries);
+        model.Axes.Add(timeAxis);
+        model.Axes.Add(distanceAxis);
+        model.Axes.Add(yAxis);
+
+        var plotView = new OxyPlot.WindowsForms.PlotView
+        {
+            Dock = DockStyle.Fill,
+            Model = model
+        };
+
+        plotView.Dump();  // LINQPad extension method to display the PlotView
+    }
+    
+    public static void PlotDictionaryV1(Dictionary<TimeSpan, Vector3> data, string title)
+    {
+        var model = new PlotModel { Title = title };
+        var lineSeries = new LineSeries { MarkerType = MarkerType.Circle };
+
+        var xAxis = new LinearAxis { Position = AxisPosition.Bottom, Title = "X Coordinate" };
+        var yAxis = new LinearAxis { Position = AxisPosition.Left, Title = "Y Coordinate" };
+
+        foreach (var point in data)
+        {
+            var timeInSeconds = point.Key.TotalSeconds;
+            var xPosition = point.Value.X;
+            var yPosition = point.Value.Y;
+
+            //var xValue = timeInSeconds * xPosition;  // Assuming that distance traveled is represented by xPosition
+            var xValue = xPosition;
+            var yValue = yPosition;
+
+            lineSeries.Points.Add(new DataPoint(xValue, yValue));
+        }
+
+        model.Series.Add(lineSeries);
+        
+
+        var plotView = new OxyPlot.WindowsForms.PlotView
+        {
+            Dock = DockStyle.Fill,
+            Model = model
+        };
+
+        plotView.Dump();  // LINQPad extension method to display the PlotView
+    }
+
+    public static void PlotDictionary(Dictionary<TimeSpan, Vector3> data, string title)
+    {
+        var model = new PlotModel { Title = title };
+
+        // Create series and axes
+        var lineSeries = new LineSeries { MarkerType = MarkerType.Circle };
+        var timeLineSeries = new LineSeries { Color = OxyColors.Red };  // Red color to distinguish the timeline
+        var timeAxis = new LinearAxis { Position = AxisPosition.Top, Title = "Time" };
+        var distanceAxis = new LinearAxis { Position = AxisPosition.Bottom, Title = "Distance Travelled" };
+        var yAxis = new LinearAxis { Position = AxisPosition.Left, Title = "Y Coordinate" };
+
+        foreach (var point in data)
+        {
+            var time = point.Key;
+            var timeInSeconds = time.TotalSeconds;
+            var xPosition = point.Value.X;
+            var yPosition = point.Value.Y;
+
+            //var xValue = timeInSeconds * xPosition;  // Assuming that distance traveled is represented by xPosition
+            var xValue = xPosition;  // Assuming that distance traveled is represented by xPosition
+            var yValue = yPosition;
+
+            lineSeries.Points.Add(new DataPoint(xValue, yValue));
+            timeLineSeries.Points.Add(new DataPoint(time.TotalMicroseconds, 0));  // Add a point on the timeline at the same X position
+        }
+
+        // Add series and axes to the model
+        model.Series.Add(lineSeries);
+        model.Series.Add(timeLineSeries);
+        model.Axes.Add(timeAxis);
+        model.Axes.Add(distanceAxis);
+        model.Axes.Add(yAxis);
+
+        var plotView = new OxyPlot.WindowsForms.PlotView
+        {
+            Dock = DockStyle.Fill,
+            Model = model
+        };
+
+        plotView.Dump();  // LINQPad extension method to display the PlotView
     }
 }
 

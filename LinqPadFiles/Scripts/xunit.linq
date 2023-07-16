@@ -4,7 +4,7 @@
   <Namespace>Xunit</Namespace>
 </Query>
 
-// This query can be #load-ed into other queries for xunit test support. *V=1.2*
+// This query can be #load-ed into other queries for xunit test support. *V=1.3*
 // You can modify the code to customize the xunit test runner behavior.
 
 void Main()
@@ -33,10 +33,16 @@ public static bool IsOdd (int value) => value % 2 == 1;
 
 #endregion
 
-/// <summary>Runs all xunit tests and displays the results. This method is editable in the 'xunit' query.</summary>
-static TestResultSummary[] RunTests (bool quietly = false, bool reportFailuresOnly = false)
+/// <summary>Runs an xunit test with the specified method name and displays the results. This method is editable in the 'xunit' query.</summary>
+static TestResultSummary[] RunTest (string methodName, bool quietly = false, bool reportFailuresOnly = false)
+	=> RunTests (quietly, reportFailuresOnly, c => c.TestMethod.Method.Name == methodName);
+
+/// <summary>Runs all xunit tests and displays the results. To run a single test, call RunTest() instead. This method is editable in the 'xunit' query.</summary>
+static TestResultSummary[] RunTests (bool quietly = false, bool reportFailuresOnly = false, Func<Xunit.Abstractions.ITestCase, bool> filter = null)
 {
 	using var runner = Xunit.Runners.AssemblyRunner.WithoutAppDomain (typeof (UserQuery).Assembly.Location);
+	if (filter != null) runner.TestCaseFilter = filter;
+
 
 	int totalTests = 0, completedTests = 0, failures = 0;
 	runner.OnDiscoveryComplete = info => totalTests = info.TestCasesToRun;
