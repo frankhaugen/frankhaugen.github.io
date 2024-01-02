@@ -19,11 +19,11 @@ async Task Main()
 
 //[Argument(0, Description = "The solution file to analyze.")]
 //[Required]
-public string? Solution { get; set; } = @"";
+public string? Solution { get; set; } = @"D:\repos\Frank.Libraries\src\Frank.Libraries.sln";
 
 //[Argument(1, Description = "The output path for file results")]
 //[Required]
-public string? OutputPath { get; set; } = @"C:\temp\";
+public string? OutputPath { get; set; } = @"D:\temp\";
 
 //[Option("-g|--create-graph-image", Description = "Runs dot to create a png from the dotfile. Make sure to have dot installed before activating this option")]
 public bool WriteGraph { get; set; } = false;

@@ -1,5 +1,7 @@
+# Title
+
 #### something is called a Dotnet invariant project
-```
+```FSharp
 ​<​ItemGroup​>
   <​RuntimeHostConfigurationOption​ ​Include​=​"​System.Globalization.Invariant​"​ ​Value​=​"​true​"​ />
 </​ItemGroup​>
@@ -19,7 +21,7 @@ Links
 - [ScottPlot](https://swharden.com/scottplot/quickstart#console-quickstart)
 
 
-```
+```csharp
 
         [Fact]
         public async Task ZipFilesTest()

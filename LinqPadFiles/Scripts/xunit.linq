@@ -4,7 +4,7 @@
   <Namespace>Xunit</Namespace>
 </Query>
 
-// This query can be #load-ed into other queries for xunit test support. *V=1.3*
+// This query can be #load-ed into other queries for xunit test support. *V=1.5*
 // You can modify the code to customize the xunit test runner behavior.
 
 void Main()
@@ -49,7 +49,7 @@ static TestResultSummary[] RunTests (bool quietly = false, bool reportFailuresOn
 
 	var tests = new TestResultSummary [0];
 	var dc = new DumpContainer (Util.WithHeading (tests, "Test Results"));
-	if (!quietly) dc.Dump (collapseTo: 1, repeatHeadersAt:0);
+	if (!quietly) dc.Dump ("", collapseTo: 1, repeatHeadersAt:0);
 
 	runner.OnTestFailed = info => AddTestResult (info);
 	runner.OnTestPassed = info => AddTestResult (info);

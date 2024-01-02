@@ -1,5 +1,5 @@
 <Query Kind="Program">
-  <NuGetReference Version="0.13.5">BenchmarkDotNet</NuGetReference>
+  <NuGetReference Version="0.13.9">BenchmarkDotNet</NuGetReference>
   <Namespace>BenchmarkDotNet.Attributes</Namespace>
   <Namespace>BenchmarkDotNet.Configs</Namespace>
   <Namespace>BenchmarkDotNet.Diagnosers</Namespace>
@@ -22,7 +22,7 @@
   <Namespace>System.Threading.Tasks</Namespace>
 </Query>
 
-// This query can be #load-ed into other queries for BenchmarkDotNet support. *V=1.4*
+// This query can be #load-ed into other queries for BenchmarkDotNet support. *V=1.5*
 // You can modify the code to customize benchmarking behavior. LINQPad will merge any subsequent updates.
 
 #LINQPad optimize+   // Enable compiler/JIT optimizations when benchmarking.
@@ -511,7 +511,7 @@ namespace LINQPad.Benchmark
 			public void Record (GcStats g)
 			{
 				TotalOperations += g.TotalOperations;
-				TotalAllocatedBytes += g.GetTotalAllocatedBytes (false);
+				TotalAllocatedBytes += g.GetTotalAllocatedBytes (false) ?? 0;
 			}
 		}
 	}

@@ -1,6 +1,5 @@
 <Query Kind="Program">
   <NuGetReference>CsvHelper</NuGetReference>
-  <NuGetReference>LINQPad.SimpleLogging</NuGetReference>
   <NuGetReference>Markdig</NuGetReference>
   <NuGetReference>Microsoft.Extensions.Hosting</NuGetReference>
   <NuGetReference>Microsoft.Extensions.Logging.Abstractions</NuGetReference>
@@ -9,7 +8,6 @@
   <NuGetReference>VarDump</NuGetReference>
   <Namespace>CsvHelper</Namespace>
   <Namespace>CsvHelper.Configuration</Namespace>
-  <Namespace>LINQPad.SimpleLogging</Namespace>
   <Namespace>Markdig</Namespace>
   <Namespace>Microsoft.Extensions.DependencyInjection</Namespace>
   <Namespace>Microsoft.Extensions.Hosting</Namespace>
@@ -17,13 +15,18 @@
   <Namespace>Microsoft.Extensions.Logging.Abstractions</Namespace>
   <Namespace>Namotion.Reflection</Namespace>
   <Namespace>OxyPlot</Namespace>
+  <Namespace>OxyPlot.Axes</Namespace>
   <Namespace>OxyPlot.Series</Namespace>
   <Namespace>System.Globalization</Namespace>
   <Namespace>System.Net.Http</Namespace>
   <Namespace>System.Numerics</Namespace>
+  <Namespace>System.Runtime.InteropServices</Namespace>
+  <Namespace>System.Text.Json</Namespace>
+  <Namespace>System.Text.Json.Serialization</Namespace>
   <Namespace>System.Threading.Tasks</Namespace>
+  <Namespace>System.Windows</Namespace>
   <Namespace>System.Windows.Forms</Namespace>
-  <Namespace>OxyPlot.Axes</Namespace>
+  <Namespace>System.Net.Mail</Namespace>
 </Query>
 
 void Main()
@@ -192,6 +195,64 @@ public static class MyExtensions
 
         return html;
     }
+}
+
+public static class JsonUtil
+{
+	public static T Deserialize<T>(string json)
+	{
+		return JsonSerializer.Deserialize<T>(json, Options);
+	}
+
+	public static string Serialize<T>(T obj)
+	{
+		return JsonSerializer.Serialize(obj, Options);
+	}
+
+	public static JsonSerializerOptions Options = new JsonSerializerOptions()
+	{
+		PropertyNameCaseInsensitive = true,
+		Converters = {
+			new JsonStringEnumConverter(),
+			new JsonDirectoryInfoConverter(),
+			new JsonMailAddressConverter()
+		},
+	    WriteIndented = true,
+		DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+		ReferenceHandler = ReferenceHandler.IgnoreCycles
+	};
+	
+	
+}
+
+public class JsonMailAddressConverter : JsonConverter<MailAddress>
+{
+	public override MailAddress Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+	{
+		string address = reader.GetString();
+		return new MailAddress(address);
+	}
+
+	public override void Write(Utf8JsonWriter writer, MailAddress value, JsonSerializerOptions options)
+	{
+		writer.WriteStringValue(value.ToString());
+	}
+}
+
+public class JsonDirectoryInfoConverter : JsonConverter<DirectoryInfo>
+{
+	public override DirectoryInfo Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+	{
+		string path = reader.GetString();
+		return new DirectoryInfo(Path.GetFullPath(path));
+	}
+
+	public override void Write(Utf8JsonWriter writer, DirectoryInfo value, JsonSerializerOptions options)
+	{
+		// Convert to a Unix-like path format (which also works on Windows)
+		string normalizedPath = value.FullName.Replace("\\", "/");
+		writer.WriteStringValue(normalizedPath);
+	}
 }
 
 public static class PlotHelper
@@ -492,8 +553,61 @@ public static class AppUtil
 
 public static class Downloader
 {
-    public static async Task<byte[]> DownloadAsync(string url) => await new HttpClient().GetByteArrayAsync(url);
+
+
+	public static async Task<string> DowloadStringAsync(string url)
+	{
+		using (var httpClient = new HttpClient())
+		{
+			return await httpClient.GetStringAsync(url);
+		}
+	}
+	
+	public static async Task<T> DowloadJsonAsync<T>(string url)
+	{
+		using (var httpClient = new HttpClient())
+		{
+			var json = await httpClient.GetStringAsync(url);
+			return JsonUtil.Deserialize<T>(json);
+		}
+	}
+	public static async Task<byte[]> DownloadAsync(string url) => await new HttpClient().GetByteArrayAsync(url);
     public static Stream Download(string url) => new HttpClient().GetStreamAsync(url).GetAwaiter().GetResult();
+}
+
+public class WindowHost<T> : BackgroundService where T : Window
+{
+	private readonly IServiceProvider _serviceProvider;
+	private readonly ILogger<WindowHost<T>> _logger;
+
+	public WindowHost(IServiceProvider serviceProvider, ILogger<WindowHost<T>> logger)
+	{
+		_serviceProvider = serviceProvider;
+		_logger = logger;
+	}
+
+	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+	{
+		_logger.LogInformation("Starting");
+
+		using var scope = _serviceProvider.CreateScope();
+		var window = scope.ServiceProvider.GetRequiredService<T>();
+		var app = scope.ServiceProvider.GetRequiredService<System.Windows.Application>();
+
+		app.ShutdownMode = ShutdownMode.OnMainWindowClose;
+		app.Exit += (sender, args) =>
+		{
+			//FreeConsole();
+			app.Shutdown();
+			_logger.LogInformation("Stopping");
+			Environment.Exit(0);
+		};
+
+		app.Run(window);
+	}
+
+	//[DllImport("kernel32")]
+	//private static extern bool FreeConsole();
 }
 
 public class LinqPadLoggerFactory : ILoggerFactory
