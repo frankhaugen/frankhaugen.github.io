@@ -32,14 +32,6 @@ foreach (var schemaFile in schemaFiles)
 }
 
 
-
-
-
-
-
-
-
-
 //var generator = new UblGenerator();
 //
 //generator.Generate(

@@ -19,7 +19,8 @@
 
 #load "Roslyn\RoslynAnalyzers"
 
-var solutionFile = new FileInfo(@"C:\repos\frankhaugen\Frank.Libraries\src\Frank.Libraries.sln");
+var solutionFile = new FileInfo(@"D:\repos\Frank.Reflection\Frank.Reflection.sln");
+//var solutionFile = new FileInfo(@"D:\repos\Frank.Libraries\src\Frank.Libraries.sln");
 if (!MSBuildLocator.IsRegistered)
     MSBuildLocator.RegisterDefaults();
 
@@ -38,6 +39,7 @@ foreach (var project in projects)
     project.Dump();
     foreach (var document in project.Documents)
     {
+		document.Dump();
         var expected = new DiagnosticResult(FrankAnalyzersCodeLengthAnalyzer.Rule).WithArguments(document.Name, FrankAnalyzersCodeLengthAnalyzer.MaxCodeLine);
 
         var code = await document.GetTextAsync();
