@@ -67,19 +67,3 @@ public class MyMongoContext : MongoContext
 	{
 	}
 }
-
-public class MongoDbExpressImage : IImage
-{
-	public string Repository => "existdb";
-
-	public string Name => "existdb";
-
-	public string Tag => "latest";
-
-	public string FullName => $"{Repository}/{Name}:{Tag}";
-
-	public string GetHostname()
-	{
-		return "localhost";
-	}
-}

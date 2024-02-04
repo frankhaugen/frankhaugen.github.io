@@ -10,7 +10,7 @@
   <IncludeAspNet>true</IncludeAspNet>
 </Query>
 
-var client = new OllamaApiClient("http://localhost:11434/api/generate", "llama2-uncensored");
+var client = new OllamaApiClient("http://localhost:11434/api", "llama2");
 
 var initialContext = new ConversationContext(new long[]
 { 
@@ -20,6 +20,8 @@ var initialContext = new ConversationContext(new long[]
 	8707070070987,
 	1234567890
 });
+
+client.ShowModelInformation("llama2").GetAwaiter().GetResult().Dump();
 
 var words = new List<string>();
 var hasStarted = false;
@@ -35,7 +37,7 @@ while (!QueryCancelToken.IsCancellationRequested && words.Count < 500)
 	hasStarted = true;
 }
 
-Util.ClearResults();
+//Util.ClearResults();
 string.Join("", words).Dump();
 
 async Task<ConversationContext> PromptAsync(string prompt, ConversationContext context, List<string> words)
@@ -46,7 +48,7 @@ async Task<ConversationContext> PromptAsync(string prompt, ConversationContext c
 		await Task.CompletedTask;
 	});
 	
-	Util.ClearResults();
+	//Util.ClearResults();
 	words.Count.Dump();
 	
 	return result;

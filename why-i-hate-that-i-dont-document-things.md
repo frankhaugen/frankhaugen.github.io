@@ -37,7 +37,7 @@ We want to make a CLI tool that can be used to install, uninstall, update and li
 
 ```mermaid
 graph TD
-    A[Start Installer] -->|Check for ZIP file| B{ZIP file found?}
+    A[Start Installer] -->|Check for ZIP file| B{{ZIP file found?}}
     B -->|Yes| C[Show Menu with Install Option]
     B -->|No| D[Show Menu without Install Option]
     C -->|Select Install| E[Install Process]
