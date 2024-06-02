@@ -44,7 +44,7 @@ public record Segments
 
 public interface IUrl
 {
-	IUrl AppendSemineIdSegments(Guid organizationId, Guid? clientId = null);
+	IUrl AppendMyEmployerIdSegments(Guid organizationId, Guid? clientId = null);
 	IUrl AppendSegments(params string[] segments);
 	IUrl AppendParameters(params KeyValuePair<string, string>[] parameters);
 	Uri ToUri();
@@ -68,7 +68,7 @@ public class Url : IUrl
 
 	public static Url CreateInstance(string baseUrl = "") => new(baseUrl);
 
-	public IUrl AppendSemineIdSegments(Guid organizationId, Guid? clientId = null)
+	public IUrl AppendMyEmployerIdSegments(Guid organizationId, Guid? clientId = null)
 	{
 		if (organizationId == Guid.Empty) throw new ArgumentException("Guid cannot be of value 'Empty'", nameof(organizationId));
 

@@ -66,13 +66,13 @@ public class TestStep : StepBody
 public class TestStep2 : StepBody
 {
     private readonly ILogger<TestStep2> _logger;
-    private readonly IEnumerable<ISeminePlugin> _plugins;
+    private readonly IEnumerable<IMyEmployerPlugin> _plugins;
 
     public TestStep2(ILogger<TestStep2> logger) => _logger = logger;
 
     public string Input { get; set; }
     
-    public ISeminePlugin GetPlugin(PluginRunContext context) => ;
+    public IMyEmployerPlugin GetPlugin(PluginRunContext context) => ;
 
     public override ExecutionResult Run(IStepExecutionContext context)
     {

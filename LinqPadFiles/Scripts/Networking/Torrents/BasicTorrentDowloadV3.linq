@@ -24,7 +24,7 @@
 
 string torrentsPath = @"D:\torrents\";
 string downloadsPath = Path.Combine(torrentsPath, "downloads");
-string torrentName = "star.trek.lower.decks.s04e07.multi.1080p.web.h264-higgsboson[eztv.re].mkv.torrent";
+string torrentName = @"C:\Users\frank\Downloads\Star.Trek.Lower.Decks.S04.1080p.x265-ELiTE.torrent";
 string torrentPath = Path.Combine(torrentsPath, torrentName);
 //var torrentDownloadBaseUrl = "https://zoink.ch/torrent/";
 //var torrentDownloadUrl = torrentDownloadBaseUrl + torrentName;
@@ -85,7 +85,7 @@ void OutputStatus(string status, string progressBar = null)
 
 	Util.ClearResults();
 
-		var bar = new Util.ProgressBar()
+	var bar = new Util.ProgressBar()
 	{
 		Percent = (int)Util.Progress,
 		Caption = Util.Progress.ToString()

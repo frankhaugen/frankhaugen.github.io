@@ -75,13 +75,13 @@ var builder = Host.CreateDefaultBuilder();
 
 builder.ConfigureServices((hostContext, services) =>
 {
-	services.AddDbContext<BaseSemineDbContext>(options =>
+	services.AddDbContext<BaseMyEmployerDbContext>(options =>
 		options.UseSqlite(hostContext.Configuration.GetConnectionString("InMemory")));
 });
 
-public class MyDataContext : BaseSemineDbContext
+public class MyDataContext : BaseMyEmployerDbContext
 {
-	public MyDataContext(DbContextOptions<BaseSemineDbContext> options) : base(options)
+	public MyDataContext(DbContextOptions<BaseMyEmployerDbContext> options) : base(options)
 	{
 	}
 
@@ -100,10 +100,10 @@ public interface IStatusFilterable
 	EntityStatus Status { get; set; }
 }
 
-public abstract class BaseSemineDbContext : DbContext
+public abstract class BaseMyEmployerDbContext : DbContext
 {
 	// CTOR
-	public BaseSemineDbContext(IDbContextOptions<BaseSemineDbContext> options) : base(options)
+	public BaseMyEmployerDbContext(IDbContextOptions<BaseMyEmployerDbContext> options) : base(options)
 	{
 	}
 	
@@ -115,7 +115,7 @@ public abstract class BaseSemineDbContext : DbContext
 		}
 	}
 	
-	public BaseSemineDbContext(DbContextOptions options) : base(options)
+	public BaseMyEmployerDbContext(DbContextOptions options) : base(options)
 	{
 		
 	}

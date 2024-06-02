@@ -4,7 +4,7 @@
   <Namespace>System.Globalization</Namespace>
 </Query>
 
-var swaggerFile = await Downloader.DownloadAsync("https://api.semine.no/swagger/v1.0/swagger.json");
+var swaggerFile = await Downloader.DownloadAsync("https://api.MyEmployer.no/swagger/v1.0/swagger.json");
 
 var reader = new Microsoft.OpenApi.Readers.OpenApiStringReader();
 

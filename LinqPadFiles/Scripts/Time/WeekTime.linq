@@ -11,7 +11,7 @@ IEnumerable<TimeChunk> GetChunks()
 
     for (int i = 0; i < 100; i++)
     {
-        list.Add(new TimeChunk(new TimeOnly(8, 0), new TimeOnly(15, 30), new PayModifier(100, PayModifierType.Normal), new List<TimeChunkDimension>() { new TimeChunkDimension(DimensionType.Project, "SemineConnect", "Pogo", false) }));
+        list.Add(new TimeChunk(new TimeOnly(8, 0), new TimeOnly(15, 30), new PayModifier(100, PayModifierType.Normal), new List<TimeChunkDimension>() { new TimeChunkDimension(DimensionType.Project, "MyEmployerConnect", "Pogo", false) }));
     }
 
     return list;

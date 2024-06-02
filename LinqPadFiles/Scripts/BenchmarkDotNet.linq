@@ -1,5 +1,7 @@
 <Query Kind="Program">
   <NuGetReference Version="0.13.9">BenchmarkDotNet</NuGetReference>
+  <NuGetReference>BenchmarkDotNet.Diagnostics.dotTrace</NuGetReference>
+  <NuGetReference>BenchmarkDotNet.Diagnostics.Windows</NuGetReference>
   <Namespace>BenchmarkDotNet.Attributes</Namespace>
   <Namespace>BenchmarkDotNet.Configs</Namespace>
   <Namespace>BenchmarkDotNet.Diagnosers</Namespace>
@@ -110,6 +112,8 @@ IConfig GetBenchmarkConfig() => ManualConfig.CreateEmpty()
 	.AddAnalyser (DefaultConfig.Instance.GetAnalysers().ToArray())
 	.AddColumnProvider (DefaultConfig.Instance.GetColumnProviders().ToArray())
 	.AddDiagnoser (MemoryDiagnoser.Default)
+	.AddDiagnoser (ThreadingDiagnoser.Default)
+	.AddHardwareCounters()
 	// When optimizations are disabled, issue a warning, but still allow benchmarking to go ahead.
 	// (It can sometimes be useful to benchmark unoptimized code.)
 	.WithOptions (ConfigOptions.DisableOptimizationsValidator);

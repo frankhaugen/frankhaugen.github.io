@@ -35,7 +35,7 @@ async Task Main()
 
     var service = app.Services.GetRequiredService<INugetService>();
 
-    var searchResult = await service.SearchAsync("SemineConnect");
+    var searchResult = await service.SearchAsync("MyEmployerConnect");
     var package = searchResult.First();
     
     await service.GetStuffAsync(package);
@@ -86,7 +86,7 @@ public class NugetService : INugetService
     private SourceRepository ConfigureAuthenticatedRepository()
     {
 
-        var sourceUri = "https://semine.pkgs.visualstudio.com/_packaging/Semine.Integration/nuget/v3/index.json";
+        var sourceUri = "https://MyEmployer.pkgs.visualstudio.com/_packaging/MyEmployer.Integration/nuget/v3/index.json";
         var source = new PackageSource(sourceUri)
         {
             Credentials = new PackageSourceCredential(

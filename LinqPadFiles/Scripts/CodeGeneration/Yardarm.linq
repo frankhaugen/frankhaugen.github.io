@@ -12,7 +12,7 @@
 
 
 var reader = new Microsoft.OpenApi.Readers.OpenApiStreamReader();
-var document = reader.Read(Downloader.Download("https://api.semine.no/swagger/v1.0/swagger.json"), out _);
+var document = reader.Read(Downloader.Download("https://api.MyEmployer.no/swagger/v1.0/swagger.json"), out _);
 //var document = reader.Read(Downloader.Download("https://petstore.swagger.io/v2/swagger.json"), out _);
 //var outputDirectory= new DirectoryInfo(@"C:\temp\");
 

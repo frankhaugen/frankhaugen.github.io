@@ -70,7 +70,7 @@ public class EztvScraper : IScraper
 {
 	public IEnumerable<Uri> GetTorrentLinks(string query)
 	{
-		var url = $"https://eztv.re/search/{query.Replace(" ", "-")}";
+		var url = $"https://eztv.to/search/{query.Replace(" ", "-")}";
 		var web = new HtmlWeb();
 		var doc = web.Load(url);
 

@@ -13,7 +13,8 @@
 // Specify the path where you want to save the downloaded torrent file
 string downloadsPath = @"D:\torrents\downloads";
 //string torrentsPath = @"D:\torrents";
-string torrentPath = @"D:\torrents\Star.Trek.Lower.Decks.S04E08.1080p.WEB.h264-ETHEL[eztv.re].mkv.torrent";
+//string torrentPath = @"D:\torrents\Star.Trek.Lower.Decks.S04E08.1080p.WEB.h264-ETHEL[eztv.re].mkv.torrent";
+string torrentPath = @"C:\Users\frank\Downloads\Star.Trek.Lower.Decks.S04.1080p.x265-ELiTE.torrent";
 
 // Specify the URL of the torrent file you want to download
 //string torrentUrl = "https://zoink.ch/torrent/Star.Trek.Lower.Decks.S04E01.1080p.WEB.h264-ETHEL[eztv.re].mkv.torrent";
