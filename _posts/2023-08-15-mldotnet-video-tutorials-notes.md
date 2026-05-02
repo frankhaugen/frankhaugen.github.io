@@ -10,19 +10,23 @@ This is not a course. It is a pile of notes for videos I *want* to make before I
 
 ## Facts: where ML.NET sits in the ecosystem
 
-**ML.NET** is Microsoft's .NET-first ML stack—data loading (`IDataView`), training pipelines, evaluation metrics, and deployment patterns documented under Microsoft Learn.[^mlnet-intro]
+**ML.NET** is Microsoft's .NET-first ML stack—data loading (`IDataView`), training pipelines, evaluation metrics, and deployment patterns documented under Microsoft Learn. [^mlnet-intro]
 
-**Model Builder** (Visual Studio extension) and the **`mlnet` CLI** automate common scenarios (classification, regression, recommendation, computer vision) so you can iterate without writing boilerplate trainers by hand.[^model-builder]
+**Model Builder** (Visual Studio extension) and the **`mlnet` CLI** automate common scenarios (classification, regression, recommendation, computer vision) so you can iterate without writing boilerplate trainers by hand. [^model-builder]
 
-**ONNX** interoperability matters because academic + industry workflows often train in Python then export; ML.NET explicitly documents loading ONNX models for inference scenarios inside .NET services.[^onnx-mlnet]
+**ONNX** interoperability matters because academic and industry workflows often train in Python then export; ML.NET documents the **ONNX Runtime** dependency and how to run ONNX models from .NET. [^onnx-mlnet]
 
-**Ethics / optics:** game-adjacent demos (aim bots, wall hacks as pedagogy) should foreground responsible disclosure—teach detection / adversarial robustness, not cheat distribution. Microsoft's Responsible AI tooling and guidance live adjacent to Azure ML docs; even scratch tutorials benefit from stating intent.
+**Ethics / optics:** game-adjacent demos (aim bots, wall hacks as *pedagogy*) should foreground responsible disclosure—teach detection and adversarial robustness, not cheat distribution. Microsoft publishes **Responsible AI** principles and Azure Machine Learning documentation on fairness, interpretability, and human review—useful guardrails even for scratch tutorials. [^rai-ms] [^rai-azure]
 
-[^mlnet-intro]: Microsoft Learn — *What is ML.NET?*. https://learn.microsoft.com/dotnet/machine-learning/how-does-mldotnet-work
+[^mlnet-intro]: Microsoft Learn — *What is ML.NET?* https://learn.microsoft.com/dotnet/machine-learning/how-does-mldotnet-work
 
-[^model-builder]: Microsoft Learn — *What is Model Builder?*. https://learn.microsoft.com/dotnet/machine-learning/automate-training-with-model-builder
+[^model-builder]: Microsoft Learn — *What is Model Builder?* https://learn.microsoft.com/dotnet/machine-learning/automate-training-with-model-builder
 
-[^onnx-mlnet]: Microsoft Learn — *Load ONNX models in ML.NET*. https://learn.microsoft.com/dotnet/machine-learning/how-to-guides/save-load-machine-learning-models-ml-net
+[^onnx-mlnet]: Microsoft Learn — *Install ONNX Runtime to use with ML.NET* (ONNX Runtime packages and GPU/CPU notes). https://learn.microsoft.com/dotnet/machine-learning/how-to-guides/install-onnx-runtime
+
+[^rai-ms]: Microsoft — *Responsible AI* overview (principles and practices). https://www.microsoft.com/ai/responsible-ai
+
+[^rai-azure]: Microsoft Learn — *What is responsible machine learning?* (Azure Machine Learning). https://learn.microsoft.com/azure/machine-learning/concept-responsible-machine-learning
 
 ## Concept
 
@@ -44,7 +48,11 @@ If that link rots, the internet deserved it.
 ## References
 
 - [Microsoft Learn — ML.NET documentation hub](https://learn.microsoft.com/dotnet/machine-learning/)
+- [Microsoft Learn — What is ML.NET?](https://learn.microsoft.com/dotnet/machine-learning/how-does-mldotnet-work)
 - [Microsoft Learn — Model Builder](https://learn.microsoft.com/dotnet/machine-learning/automate-training-with-model-builder)
 - [Microsoft Learn — ML.NET CLI](https://learn.microsoft.com/dotnet/machine-learning/automate-training-with-cli)
-- [Microsoft Learn — ONNX + ML.NET](https://learn.microsoft.com/dotnet/machine-learning/how-to-guides/save-load-machine-learning-models-ml-net)
-- [ONNX runtime (GitHub)](https://github.com/microsoft/onnxruntime)
+- [Microsoft Learn — Install ONNX Runtime to use with ML.NET](https://learn.microsoft.com/dotnet/machine-learning/how-to-guides/install-onnx-runtime)
+- [Microsoft Learn — Save and load a model in ML.NET](https://learn.microsoft.com/dotnet/machine-learning/how-to-guides/save-load-machine-learning-models-ml-net) (general persistence; ONNX loading is covered in ONNX-specific topics above)
+- [ONNX Runtime (GitHub)](https://github.com/microsoft/onnxruntime)
+- [Microsoft — Responsible AI](https://www.microsoft.com/ai/responsible-ai)
+- [Microsoft Learn — Responsible machine learning (Azure ML)](https://learn.microsoft.com/azure/machine-learning/concept-responsible-machine-learning)
