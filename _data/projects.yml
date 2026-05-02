@@ -1,0 +1,55 @@
+- name: Frank.BedrockSlim
+  github: https://github.com/frankhaugen/Frank.BedrockSlim
+  blurb: Bedrock-style LLM client/server split with NuGet packages.
+  nuget: https://img.shields.io/nuget/v/Frank.BedrockSlim.Server?label=Server&style=flat-square
+  nuget_url: https://www.nuget.org/packages/Frank.BedrockSlim.Server
+  badges:
+    - https://img.shields.io/nuget/v/Frank.BedrockSlim.Client?label=Client&style=flat-square
+    - https://img.shields.io/github/license/frankhaugen/Frank.BedrockSlim?style=flat-square
+    - https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white
+
+- name: Frank.Channels.DependencyInjection
+  github: https://github.com/frankhaugen/Frank.Channels.DependencyInjection
+  blurb: Channel<T> as a first-class DI resource — small, predictable API.
+  nuget: https://img.shields.io/nuget/v/Frank.Channels.DependencyInjection?style=flat-square&label=NuGet
+  nuget_url: https://www.nuget.org/packages/Frank.Channels.DependencyInjection
+  badges:
+    - https://img.shields.io/github/license/frankhaugen/Frank.Channels.DependencyInjection?style=flat-square
+    - https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white
+
+- name: Frank.PulseFlow
+  github: https://github.com/frankhaugen/Frank.PulseFlow
+  blurb: In-process messaging on Channel<T> — Nexus, Conduit, Pulse, Flow.
+  nuget: https://img.shields.io/nuget/v/Frank.PulseFlow?style=flat-square&label=NuGet
+  nuget_url: https://www.nuget.org/packages/Frank.PulseFlow
+  badges:
+    - https://img.shields.io/github/license/frankhaugen/Frank.PulseFlow?style=flat-square
+    - https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white
+
+- name: Frank.GameEngine
+  github: https://github.com/frankhaugen/Frank.GameEngine
+  blurb: Simulation-first game engine decoupled from graphics backends.
+  badges:
+    - https://img.shields.io/github/license/frankhaugen/Frank.GameEngine?style=flat-square
+    - https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white
+
+- name: Frank.Wpf
+  github: https://github.com/frankhaugen/Frank.Wpf
+  blurb: WPF building blocks — hosting, markdown, controls.
+  badges:
+    - https://img.shields.io/github/license/frankhaugen/Frank.Wpf?style=flat-square
+    - https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white
+
+- name: Frank.CronJobs
+  github: https://github.com/frankhaugen/Frank.CronJobs
+  blurb: Cron-style scheduling experiments built on CronQuery ideas.
+  badges:
+    - https://img.shields.io/github/license/frankhaugen/Frank.CronJobs?style=flat-square
+    - https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white
+
+- name: RoboSharp
+  github: https://github.com/frankhaugen/RoboSharp
+  blurb: Teaching language and compiler — robot on a grid, pipeline you can watch.
+  badges:
+    - https://img.shields.io/github/license/frankhaugen/RoboSharp?style=flat-square
+    - https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white

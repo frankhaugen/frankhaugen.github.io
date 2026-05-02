@@ -1,0 +1,443 @@
+/* Sci-fi terminal aesthetic — dark, cyan/violet accents, readable prose */
+
+:root {
+  --bg-deep: #070a0f;
+  --bg-panel: #0c1219;
+  --bg-elevated: #111a24;
+  --border: rgba(0, 229, 255, 0.14);
+  --text: #e6edf3;
+  --text-muted: #8b9cb3;
+  --accent: #00e5ff;
+  --accent-dim: rgba(0, 229, 255, 0.65);
+  --violet: #a78bfa;
+  --danger: #f472b6;
+  --radius: 10px;
+  --font-display: "Orbitron", system-ui, sans-serif;
+  --font-body: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+  --font-sans: "Source Sans 3", system-ui, sans-serif;
+  --glow: 0 0 24px rgba(0, 229, 255, 0.12);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text);
+  background-color: var(--bg-deep);
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+    radial-gradient(ellipse 120% 80% at 50% -30%, rgba(88, 28, 135, 0.22), transparent 55%),
+    radial-gradient(ellipse 80% 50% at 100% 50%, rgba(0, 229, 255, 0.06), transparent 45%);
+  background-size: 48px 48px, 48px 48px, 100% 100%, 100% 100%;
+  background-attachment: fixed;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+a:hover {
+  color: #8ff;
+  border-bottom-color: var(--accent-dim);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.shell {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 1.25rem 4rem;
+}
+
+.site-header {
+  padding: 2rem 0 1.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+  border-bottom: none;
+  text-shadow: var(--glow);
+}
+
+.brand:hover {
+  color: var(--accent);
+  border-bottom: none;
+}
+
+.brand-tag {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-dim);
+  margin-top: 0.35rem;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.nav a {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid transparent;
+  padding: 0.25rem 0;
+}
+
+.nav a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent-dim);
+}
+
+main {
+  position: relative;
+}
+
+.site-footer {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.site-footer a {
+  color: var(--violet);
+}
+
+/* Home intro */
+.home-intro {
+  margin-bottom: 2.5rem;
+}
+
+.home-intro .lead {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 52ch;
+}
+
+.link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 1.25rem 0;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+}
+
+.link-row a {
+  color: var(--violet);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Project cards */
+.project-deck {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.15rem 1.25rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  border-color: rgba(0, 229, 255, 0.35);
+  box-shadow: var(--glow);
+}
+
+.card h3 {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.card h3 a {
+  color: var(--text);
+  border-bottom: none;
+}
+
+.card h3 a:hover {
+  color: var(--accent);
+}
+
+.card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.card-badges {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.card-badges img {
+  height: 22px;
+  width: auto;
+  vertical-align: middle;
+}
+
+.writing-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-top: 1rem;
+}
+
+.writing-box ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.writing-box li {
+  margin: 0.35rem 0;
+}
+
+/* Blog index */
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-list li {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-list a.block {
+  display: block;
+  padding: 1.15rem 0.25rem;
+  border-bottom: none;
+  border-radius: var(--radius);
+}
+
+.post-list a.block:hover {
+  background: rgba(0, 229, 255, 0.04);
+}
+
+.post-list .meta {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-dim);
+}
+
+.post-list h2 {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--text);
+}
+
+.post-list .excerpt {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.tag-row {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.tag {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--violet);
+}
+
+/* Single post */
+.post-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-header h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+}
+
+.post-meta {
+  margin-top: 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Prose (post body) */
+.prose {
+  max-width: 68ch;
+}
+
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-family: var(--font-display);
+  margin-top: 1.75rem;
+  margin-bottom: 0.65rem;
+  letter-spacing: 0.03em;
+  color: var(--text);
+}
+
+.prose h2 {
+  font-size: 1.25rem;
+}
+
+.prose p {
+  margin: 0.85rem 0;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.35rem;
+}
+
+.prose li {
+  margin: 0.35rem 0;
+}
+
+.prose blockquote {
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--violet);
+  background: rgba(167, 139, 250, 0.06);
+  color: var(--text-muted);
+}
+
+.prose code {
+  font-family: var(--font-body);
+  font-size: 0.88em;
+  padding: 0.12rem 0.35rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.prose pre {
+  margin: 1.25rem 0;
+  padding: 1rem 1.15rem;
+  overflow-x: auto;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.prose pre code {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  font-size: 0.9rem;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.65rem;
+}
+
+.prose th {
+  background: var(--bg-elevated);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent-dim);
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  letter-spacing: 0.06em;
+  margin: 0 0 1.5rem;
+}

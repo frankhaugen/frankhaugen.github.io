@@ -1,1 +1,33 @@
-theme: jekyll-theme-slate
+title: Frank Haugen
+description: Open-source .NET libraries, compilers, and tooling — plus a dev log.
+url: https://frankhaugen.github.io
+baseurl: ""
+permalink: /blog/:year/:month/:day/:title/
+
+markdown: kramdown
+kramdown:
+  syntax_highlighter: rouge
+
+author:
+  name: Frank R. Haugen
+  url: https://github.com/frankhaugen
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+feed:
+  path: feed.xml
+  posts_limit: 30
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+exclude:
+  - README.md
+  - LICENSE
+  - .vscode

@@ -1,0 +1,27 @@
+---
+layout: default
+---
+<div class="home-intro">
+  {{ content }}
+</div>
+
+<h2 class="section-title">Open source</h2>
+<div class="project-deck">
+  {% for p in site.data.projects %}
+    <article class="card">
+      <h3><a href="{{ p.github }}">{{ p.name }}</a></h3>
+      <p>{{ p.blurb }}</p>
+      <div class="card-badges">
+        <a href="{{ p.github }}"><img src="https://img.shields.io/badge/repo-GitHub-121011?style=flat-square&logo=github" alt="GitHub"></a>
+        {% if p.nuget %}
+          <a href="{{ p.nuget_url }}"><img src="{{ p.nuget }}" alt="NuGet"></a>
+        {% endif %}
+        {% if p.badges %}
+          {% for b in p.badges %}
+            <img src="{{ b }}" alt="">
+          {% endfor %}
+        {% endif %}
+      </div>
+    </article>
+  {% endfor %}
+</div>

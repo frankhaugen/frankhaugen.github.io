@@ -1,0 +1,20 @@
+---
+layout: default
+---
+<article class="post">
+  <header class="post-header">
+    <h1>{{ page.title | escape }}</h1>
+    <p class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time>
+      {% if page.tags.size > 0 %}
+        <span aria-hidden="true"> · </span>
+        {% for t in page.tags %}
+          <span class="tag">{{ t }}</span>
+        {% endfor %}
+      {% endif %}
+    </p>
+  </header>
+  <div class="prose">
+    {{ content }}
+  </div>
+</article>

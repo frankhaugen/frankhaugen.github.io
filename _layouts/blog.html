@@ -1,0 +1,28 @@
+---
+layout: default
+---
+<h1 class="page-title">{{ page.title | default: "Log" }}</h1>
+{{ content }}
+<p class="lead" style="color: var(--text-muted); max-width: 52ch; margin-top: 0.5rem;">Markdown lives in <code>_posts/</code> as <code>YYYY-MM-DD-slug.md</code> with YAML front matter (<code>title</code>, <code>tags</code>, optional <code>description</code>).</p>
+
+<ul class="post-list">
+  {% assign posts_sorted = site.posts %}
+  {% for post in posts_sorted %}
+    <li>
+      <a class="block" href="{{ post.url | relative_url }}">
+        <span class="meta">{{ post.date | date: "%Y · %b %d" }}</span>
+        <h2>{{ post.title | escape }}</h2>
+        {% if post.excerpt %}
+          <p class="excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
+        {% endif %}
+        {% if post.tags.size > 0 %}
+          <div class="tag-row">
+            {% for t in post.tags %}
+              <span class="tag">{{ t }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </a>
+    </li>
+  {% endfor %}
+</ul>
