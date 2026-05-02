@@ -26,6 +26,20 @@ It lends itself to be used in many different ways, and it is a good protocol to 
 low level stuff and efficient data/string manipulation. It is also a good protocol to learn about security, as it has no 
 security. It is also a good protocol to learn about how to make a client/server library.
 
+## Facts: IRC specifications worth bookmarking
+
+The classic IRC protocol stack is defined across multiple RFCs—**RFC 1459** documents the original architecture (channels, operators, numeric replies), while **RFC 2812** focuses on client behaviour and explicitly discusses security considerations that boil down to “transport security is out of band unless you bolt something on.”[^rfc1459][^rfc2812]
+
+Modern deployments sometimes layer TLS (`ircs://`) or vendor-specific extensions—IRCv3 working-group drafts catalogue capability negotiation—but the baseline mental model remains **cleartext channel semantics unless you prove otherwise**.
+
+Microsoft's **`Microsoft.AspNetCore.Connections.Abstractions`**—what Bedrock.Framework showcased—is documented today under ASP.NET Core connection middleware / Kestrel extensibility; learning those primitives is orthogonal to IRC grammar but essential if you want composable socket pipelines in .NET.[^aspnet-connections]
+
+[^rfc1459]: IETF RFC 1459 — Internet Relay Chat Protocol. https://datatracker.ietf.org/doc/html/rfc1459
+
+[^rfc2812]: IETF RFC 2812 — Internet Relay Chat: Client Protocol. https://datatracker.ietf.org/doc/html/rfc2812
+
+[^aspnet-connections]: Microsoft Learn — *Connections in ASP.NET Core* / related middleware docs (Bedrock-era demos mapped here). https://learn.microsoft.com/aspnet/core/fundamentals/servers/kestrel
+
 ## The Idea
 
 I wanted to make an IRC client/server library. I wanted to make it in a way that it would be easy to use, and easy to extend.
@@ -147,3 +161,11 @@ now I will just keep on making stuff and see where it takes me. I am very intere
 benefical to make a code generator for the IRC client/server library, as there are a lot of commands and events, and LLMs is 
 a thing I have been looking into, and that also might be a good fit for the IRC server library, because building in a 
 moderation chat bot would be cool.
+
+## References
+
+- [RFC 1459 — IRC Protocol](https://datatracker.ietf.org/doc/html/rfc1459)
+- [RFC 2812 — IRC Client Protocol](https://datatracker.ietf.org/doc/html/rfc2812)
+- [Microsoft Learn — ASP.NET Core / Kestrel](https://learn.microsoft.com/aspnet/core/fundamentals/servers/kestrel)
+- [Frank.BedrockSlim (GitHub)](https://github.com/frankhaugen/Frank.BedrockSlim)
+- [IRCv3 specifications](https://ircv3.net/specs)

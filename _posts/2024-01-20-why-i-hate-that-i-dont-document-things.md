@@ -32,6 +32,41 @@ It's not perfect, but parts work. The problem is continuity: I don't remember th
 
 Write this blog post and treat it as living documentation for the rest of the project. Yes, that is a ridiculous place for specs. It is still better than nowhere.
 
+## Facts: kinds of documentation that actually help
+
+**Opinion:** any artifact beats brain-RAM. **Fact:** teams usually separate *intent* from *procedure*:
+
+| Artifact | What it captures | When it pays off |
+|----------|------------------|------------------|
+| README / overview | What the thing is, how to run it | First hour for you *and* strangers |
+| Decision records (ADR) | Why you picked tradeoff A over B | Six months later when someone asks "who chose this?" |
+| Issue / milestone | Scoped work with acceptance hints | Anything multi-step you cannot finish tonight |
+| Runbook | Steps + rollback | Anything that touches prod or user machines |
+
+Architecture Decision Records were popularized for documenting significant technical choices in version control—short markdown files, immutable history, searchable blame.[^adr]
+
+For shipping a CLI installer as a **.NET tool**, Microsoft documents the packaging model explicitly: your package must declare the `dotnet tool` asset, expose an entry assembly, and consumers install with `dotnet tool install -g <packageId>` (or use a manifest for local tools).[^global-tool] NuGet's own reference describes optional package types such as `DotnetTool` when authoring packages intended for that pipeline.[^nuget-pack-type]
+
+None of that replaces a product spec—but it tells you *where in the official docs to look* once you admit you forgot what you were doing.
+
+## Practice: minimal spec outline for `simple-installer`
+
+If you want something copy-pasteable:
+
+1. **Goal** — zip-backed package format + `manifest.json` schema version.
+2. **Commands** — `pack`, `install`, `list`, `remove`, `update` (even if some are stubs).
+3. **Distribution** — NuGet package layout today; `DotnetTool` package type target state.
+4. **Non-goals** — MSI, services, elevation stories you refuse to own.
+5. **Open questions** — global tool vs framework-dependent bundle; signing.
+
+That five-bullet skeleton is enough to stop thrashing.
+
+## Pitfalls I walked into
+
+- Assuming "I'll remember why this flag exists" (false—entropy wins).
+- Shipping features without an issue number or ADR pointer (future you files a silent lawsuit).
+- Mixing "blog post spec" with zero tests—this doc *helps humans*; automated checks still matter.
+
 ## Let's get started
 
 ### The problem we are trying to solve (the specs)
@@ -122,3 +157,16 @@ class Program
     }
 }
 ```
+
+[^adr]: ADR GitHub organization — overview of Architecture Decision Records (popularized by Michael Nygard, 2011). https://adr.github.io/
+
+[^global-tool]: Microsoft Learn — *Global tools overview* and packaging guidance for .NET CLI tools. https://learn.microsoft.com/dotnet/core/tools/global-tools
+
+[^nuget-pack-type]: NuGet docs — *Package Type reference* (`DotnetTool`, `Template`, etc.). https://learn.microsoft.com/nuget/create-packages/set-package-type
+
+## References
+
+- [Microsoft Learn — Global tools](https://learn.microsoft.com/dotnet/core/tools/global-tools)
+- [Microsoft Learn — How to manage local tools](https://learn.microsoft.com/dotnet/core/tools/local-tools-how-to-manage)
+- [NuGet — Set a package type](https://learn.microsoft.com/nuget/create-packages/set-package-type)
+- [ADR GitHub — Architecture Decision Records](https://adr.github.io/)

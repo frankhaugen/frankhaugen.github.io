@@ -441,3 +441,76 @@ main {
   letter-spacing: 0.06em;
   margin: 0 0 1.5rem;
 }
+
+/* Kramdown footnotes + reference lists (long-form posts) */
+.prose sup {
+  font-size: 0.72em;
+  vertical-align: super;
+}
+
+.prose sup a {
+  border-bottom: none;
+  padding: 0 0.1em;
+}
+
+.prose sup a:hover {
+  color: var(--violet);
+}
+
+.prose .footnotes {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.prose .footnotes ol {
+  padding-left: 1.25rem;
+}
+
+.prose .footnotes li {
+  margin: 0.65rem 0;
+  line-height: 1.55;
+}
+
+.prose .footnotes p {
+  margin: 0.35rem 0;
+}
+
+.prose .footnotes a {
+  word-break: break-all;
+}
+
+.prose .reversefootnote {
+  border-bottom: none;
+  font-size: 0.85em;
+}
+
+.prose h2#references,
+.prose h2.references {
+  margin-top: 2.25rem;
+}
+
+.prose .reference-list {
+  font-size: 0.9rem;
+}
+
+.prose .reference-list li {
+  margin: 0.5rem 0;
+}
+
+.prose .reference-list a {
+  word-break: break-all;
+}
+
+.prose h2#references + ol,
+.prose h2#references + ul {
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.prose h2#references + ol a,
+.prose h2#references + ul a {
+  word-break: break-all;
+}

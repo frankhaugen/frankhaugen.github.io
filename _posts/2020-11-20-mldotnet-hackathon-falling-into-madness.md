@@ -9,6 +9,24 @@ description: Doom sprites, TensorFlow tears, ONNX that never showed up, and the 
 
 **Content warning:** Python ecosystem trauma, Red Bull, and hubris.
 
+## Facts: what we thought we were assembling
+
+**ML.NET** is Microsoft's machine-learning stack for .NET—training via CLI / Model Builder / notebooks and inference loaded into apps using standardized loaders for ONNX / TF formats depending on scenario.[^mlnet-overview]
+
+**ONNX** describes models so frameworks can exchange graphs; ML.NET documents ONNX as a first-class interchange path alongside native trainers.[^mlnet-onnx]
+
+**TensorFlow Object Detection API** is Google's Python-centric pipeline for training detectors—the tutorials assume coherent CUDA + protobuf stacks, which is *exactly* where “works on my laptop” dies.
+
+**tensorflow-onnx (`tf2onnx`)** is the community converter we leaned on to escape TensorFlow graphs toward ONNX—silent failures in converters are doubly painful because you stare at success logs while files never appear.[^tf2onnx]
+
+This factual scaffolding does not make the pain fake—it explains why “marketing-simple ≠ dependency-simple.”
+
+[^mlnet-overview]: Microsoft Learn — *What is ML.NET?*. https://learn.microsoft.com/dotnet/machine-learning/how-does-mldotnet-work
+
+[^mlnet-onnx]: Microsoft Learn — *Load ONNX models with ML.NET*. https://learn.microsoft.com/dotnet/machine-learning/how-to-guides/save-load-machine-learning-models-ml-net
+
+[^tf2onnx]: ONNX GitHub — `onnx/tensorflow-onnx` converter project. https://github.com/onnx/tensorflow-onnx
+
 "Do something with ml.net" was the task given by the cool guys and gals from the ML.NET community. That's easy enough, right? WRONG!!! It's stressful and frustrating.
 
 The idea was to use a game that have been re-created as Open Source in C#. Two alternatives was the most promising: OpenRA, and ManagedDoom, (Red Alert and Doom). We quickly found it to be above our skill level to to something with Red Alert, so Doom it was, and what an apt title for our little team.
@@ -53,15 +71,15 @@ Now it's just me at 04:00 UTC with 4 hours left until the deadline and all there
 
 , at least I have a lot of experiences to bring with me. 
 
-## Sources
-|Description|Link|
-|---|---|
-||[]()|
-|tf2onnx|[https://github.com/onnx/tensorflow-onnx](https://github.com/onnx/tensorflow-onnx)|
-|Tensorflow object detection tutorial|[https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/training.html](https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/training.html)|
-|Wolfenstein 3D neat article|[https://vbstudio.hu/en/blog/year-2019/20190317-Growing-an-AI-with-NEAT](https://vbstudio.hu/en/blog/year-2019/20190317-Growing-an-AI-with-NEAT)|
-|Screen recorder library|[https://github.com/sskodje/ScreenRecorderLib](https://github.com/sskodje/ScreenRecorderLib)|
-|ML.net object detection tutorial|[https://github.com/fralik/ObjectDetection-MLNet](https://github.com/fralik/ObjectDetection-MLNet)
+## References
+
+- [Microsoft Learn — What is ML.NET?](https://learn.microsoft.com/dotnet/machine-learning/how-does-mldotnet-work)
+- [Microsoft Learn — ONNX models in ML.NET](https://learn.microsoft.com/dotnet/machine-learning/how-to-guides/save-load-machine-learning-models-ml-net)
+- [tensorflow-onnx (GitHub)](https://github.com/onnx/tensorflow-onnx)
+- [TensorFlow Object Detection API tutorial (ReadTheDocs)](https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/training.html)
+- [ML.NET object detection sample (GitHub — fralik)](https://github.com/fralik/ObjectDetection-MLNet)
+- [ScreenRecorderLib (GitHub)](https://github.com/sskodje/ScreenRecorderLib)
+- [VB Studio — Wolfenstein / NEAT article](https://vbstudio.hu/en/blog/year-2019/20190317-Growing-an-AI-with-NEAT)
 
 ## Useful snippets
 |Description||
