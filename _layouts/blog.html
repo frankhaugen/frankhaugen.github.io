@@ -15,7 +15,7 @@ layout: default
         {% if post.excerpt %}
           <p class="excerpt">{{ post.excerpt | strip_html | truncate: 200 }}</p>
         {% endif %}
-        {% if post.tags.size > 0 %}
+        {% if post.tags and post.tags.size > 0 %}
           <div class="tag-row">
             {% for t in post.tags %}
               <span class="tag">{{ t }}</span>
