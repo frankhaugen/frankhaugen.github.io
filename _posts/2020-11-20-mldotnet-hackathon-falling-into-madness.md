@@ -4,10 +4,12 @@ tags:
   - ML.NET
   - hackathon
   - story
-description: Doom, TensorFlow, ONNX, and the gap between tutorial simplicity and reality.
+description: Doom sprites, TensorFlow tears, ONNX that never showed up, and the gap between "ten minutes in the docs" and four days of your life.
 ---
 
-"Do something with ml.net" was the task given by the cool guys and gals from the ml.net community. That's easy enough, right? WRONG!!! It's stressful and frustrating.
+**Content warning:** Python ecosystem trauma, Red Bull, and hubris.
+
+"Do something with ml.net" was the task given by the cool guys and gals from the ML.NET community. That's easy enough, right? WRONG!!! It's stressful and frustrating.
 
 The idea was to use a game that have been re-created as Open Source in C#. Two alternatives was the most promising: OpenRA, and ManagedDoom, (Red Alert and Doom). We quickly found it to be above our skill level to to something with Red Alert, so Doom it was, and what an apt title for our little team.
 

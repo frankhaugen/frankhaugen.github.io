@@ -3,11 +3,14 @@ title: WPF without XAML
 tags:
   - WPF
   - dotnet
-description: Worker template, Host builder, and code-only UI wiring.
+description: Worker + Generic Host + code-only windows. XAML optional; sanity less optional.
 ---
 
+People assume WPF means XAML. It doesn't have to — you can drive the whole thing from C# if you accept a bit of ceremony and stop pretending `Application` is magic.
+
 ## Why would you use WPF without XAML
-The easy answer is: I don't like XAML! Even using MVVM, it's just bad HTML/XML that is slow to work with, if you want some nesting and dynamic component adding
+
+The easy answer: I don't like XAML. Even with MVVM it is fiddly XML that fights you the moment you want real nesting, dynamic trees, or anything that is not a designer-friendly toy demo.
 
 ## How to get started?
 #### 1. Use the dotnet cli or Visual Studio project creator to create a "Worker project" and change the .csproj to look something like this:

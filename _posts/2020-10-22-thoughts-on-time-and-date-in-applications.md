@@ -3,10 +3,12 @@ title: Thoughts on time and date in applications
 tags:
   - DateTime
   - opinions
-description: Chat apps, formats, timezones, and why UNIX milliseconds win.
+description: Chat apps, calendars nobody agrees on, timezones, and why I reach for UNIX milliseconds when the world wants a pretty string.
 ---
 
-I'm making an app that has a chat functionality, and so time is an important factor. I couldn't find serious discussions about this excepte, "use X format"; So i made this to gather my thoughts about it.
+I'm making an app with chat, so time actually matters. Most advice online boils down to "pick a format" — cool, thanks — so I wrote this to park my own opinions somewhere I can link instead of re-explaining them in PR comments.
+
+**Fair warning:** this is not ISO-8601 fanfic. It is me being annoyed in a structured way.
 
 ### TL;DR
 Time and dates are hard!
@@ -60,5 +62,5 @@ Great video about timezones every dev should watch:
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=-5wpm-gesOY" target="_blank" rel="noopener noreferrer"><img src="http://img.youtube.com/vi/-5wpm-gesOY/0.jpg" alt="YouTube: timezones for programmers" width="240" height="180"></a>
 
-## Conlusion: Use millisecond UNIX time
+## Conclusion: use millisecond UNIX time
 The computer counts in this time unit, (.net actually has a unit caller "ticks" that is MUCH smaller)

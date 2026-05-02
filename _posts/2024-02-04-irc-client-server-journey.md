@@ -5,8 +5,10 @@ tags:
   - story
   - project
   - IRC
-description: How one goal spawned BedrockSlim, PulseFlow, CronJobs, GameEngine, and still no IRC stack.
+description: One goal, many NuGet packages, zero IRC. A tour of the ecosystem I built while avoiding the thing I set out to build.
 ---
+
+If you only read one paragraph: I wanted IRC. I got BedrockSlim, PulseFlow, Channels-in-DI, storage abstractions, CronJobs, workflows, a torrent client, and a game engine-shaped distraction. IRC is still a future fantasy. **Skill issue?** Partly. **Microsoft gave me a machine gun of foot-guns?** Also partly.
 
 This is the story of how I wanted to make an IRC client/server library, but ended up making a workflow library, a Pub/Sub 
 library, and a DI Channel library, a data persistence library, CronJobs, and a bunch of other things along the way, while still 

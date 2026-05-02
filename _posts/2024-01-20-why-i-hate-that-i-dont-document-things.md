@@ -3,33 +3,36 @@ title: Why I hate that I don't document things
 tags:
   - documentation
   - opinions
-description: A story about being 75% done with a project and realizing there was no map for the last mile.
+description: Seventy-five percent done, zero percent remembered. A small installer tool and a big hole where the plan should be.
 ---
 
-A story about how I was 75% done with a project, and then I realized I had no idea what to do next.
+I hate that I don't document things. Not in an abstract "we should write more ADRs" way — in the *I am staring at my own repo and it might as well be someone else's* way.
+
+This post is part rant, part therapy, part **actual spec** for a thing called `simple-installer` because if I don't write it down here, nobody will, including future me.
 
 ## The project
 
-It was just a small simple project, just a simple installer tool called simply `simple-installer`. It was supposed to be a simple tool that would pack a zip with some metadata and install it.
+It was just a small simple project: a simple installer tool called `simple-installer`. Pack a zip with metadata, install it. Nothing fancy.
 
 It just needed to be able to:
--[X] Pack a zip
--[X] Unpack a zip
--[X] Run as a CLI tool
--[X] Be distributed through NuGet
--[ ] Be able to run as a dotnet tool (global tool)
+
+- [x] Pack a zip
+- [x] Unpack a zip
+- [x] Run as a CLI tool
+- [x] Be distributed through NuGet
+- [ ] Run as a `dotnet` global tool
 
 ## The problem
 
-I got a lot done, had some menu options, could pack a zip, could unpack a zip, could run as a CLI tool. But then I realized I had no idea how to distribute it as a dotnet tool. And its not perfect, but I got it working, yet it need some more work.
+I got a lot done. Menus, zip in, zip out, CLI, NuGet. Then I hit "global tool" and realized I had **no idea** what to do next — and no breadcrumbs for how I got here in the first place.
 
-How do I do this work? I have no idea, I don't remember what I did, and I don't have any documentation. No specs or anything like a an issue on github.
+It's not perfect, but parts work. The problem is continuity: I don't remember the decisions, and there is no documentation. No specs, no issues, no "why we chose this" anywhere except inside my skull, which is a terrible persistence layer.
 
 ## The solution
 
-Write this blog post, and document the rest of the project. And then this can be the specs and documentation for the project.
+Write this blog post and treat it as living documentation for the rest of the project. Yes, that is a ridiculous place for specs. It is still better than nowhere.
 
-## Lets get started
+## Let's get started
 
 ### The problem we are trying to solve (the specs)
 
